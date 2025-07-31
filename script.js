@@ -520,7 +520,7 @@ function setupPageNavigation() {
 function initCalculator(data) {
     const page = document.querySelector('#Calculator-Page');
     if (!page) return;
-    const CURRENT_VERSION = "6.3-dog";
+    const CURRENT_VERSION = "6.4-dog";
     let isChartDirty = false;
 
     const toothData = {
@@ -738,7 +738,9 @@ function initCalculator(data) {
                     const newFirstDigit = {'1':'5', '2':'6', '3':'7', '4':'8'}[firstDigit];
                     idCell.textContent = newFirstDigit + permanentId.substring(1);
                 } else {
-                     idCell.textContent = row.classList.contains('procedure-sub-row') ? '' : permanentId;
+                     if(!row.classList.contains('procedure-sub-row')) {
+                        idCell.textContent = permanentId;
+                     }
                 }
             }
         }
@@ -1042,6 +1044,8 @@ function initCalculator(data) {
                     });
                 }
                 
+                page.querySelectorAll('.main-container .procedure-select').forEach(select => handleSelectionChange(select));
+
                 if (chartData.additionalTreatments) {
                     for (const [id, value] of Object.entries(chartData.additionalTreatments)) {
                         const control = page.querySelector(`[data-item-id="${id}"]`);
@@ -1101,6 +1105,7 @@ function initCalculator(data) {
             
             const newSubRow = createSubRow(mainRow.dataset.permanentId);
             insertAfterRow.insertAdjacentElement('afterend', newSubRow);
+            handleSelectionChange(newSubRow.querySelector('select'));
         } 
         if (e.target.matches('.remove-btn')) { 
             isChartDirty = true;
@@ -1119,11 +1124,15 @@ function initCalculator(data) {
         teeth.forEach(tooth => {
             const mainRow = createMainRow(tooth);
             tableBody.appendChild(mainRow);
-            handleSelectionChange(mainRow.querySelector('.procedure-select'));
         });
     }
+    
     populateAdditionalTreatments();
     updateAdditionalOptions();
+    
+    page.querySelectorAll('.procedure-select').forEach(select => handleSelectionChange(select));
+    page.querySelectorAll('.additional-table select').forEach(select => handleSelectionChange(select));
+
     updateDynamicTitle();
     updateTotalCost();
 
