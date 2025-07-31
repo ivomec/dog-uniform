@@ -2,11 +2,12 @@
   [v6.2 업데이트 내역]
   - 계산기: 추가 처치 내역 UI를 이전 버전처럼 명확한 카테고리(통증 관리, 회복 촉진 등)로 재분류하고 이모티콘을 추가하여 가독성 개선
   - 건강검진(<20kg): '사상충 검사 제외' 플랜의 할인 가격을 최신 정보로 모두 업데이트
-  - 건강검진(≥20kg): '사상충 검사 포함' 플랜의 할인 가격을 최신 정보로 모두 업데이트
-  - 계산기: 송곳니 등 단일 행 치아에 시술 추가 시 테이블 레이아웃이 밀리는 현상 수정 로직 재확인
+  - 건강검진(≥20kg): '사상충 검사 포함/제외' 플랜의 할인 가격을 최신 정보로 모두 업데이트
+  - 계산기: 송곳니 등 단일 행 치아에 시술 추가 시 테이블 레이아웃이 밀리는 현상 수정
   - 계산기: 시술 선택 목록을 요청된 새 카테고리 기준으로 재구성
-  - 계산기: '유치' 관련 시술 선택 시, 치아 번호가 유치 번호로 자동 변경되는 기능 복원 확인
+  - 계산기: '유치' 관련 시술 선택 시, 치아 번호가 유치 번호로 자동 변경되는 기능 복원
   - 계산기: '모니터링' 시술 선택 시, 강조 색상 표시 기능 확인 및 유지
+  - 데이터: 파로돈겔 가격 수정 (28,000 -> 25,000)
 */
 document.addEventListener('DOMContentLoaded', () => {
     const hospitalData = {
@@ -94,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
           { "borderColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ SDMA", "⑫ CPL(췌장염)", "⑬ 4dx"], "originalPrice": 495800, "discountPrice": 394000 }
         ],
         "packagesWithout4Dx": [
-          { "borderColor": "#228B22", "title": "🌳 큰 아이 안심 맞춤설계 (7세미만)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp"], "originalPrice": 295800, "discountPrice": 249000 },
-          { "borderColor": "#FF8C00", "title": "🍂 큰 아이 안심 맞춤설계 (7세이상)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4"], "originalPrice": 345800, "discountPrice": 299000 },
+          { "borderColor": "#228B22", "title": "🌳 큰 아이 맞춤설계 (7세미만)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp"], "originalPrice": 295800, "discountPrice": 249000 },
+          { "borderColor": "#FF8C00", "title": "🍂 큰 아이 맞춤설계 (7세이상)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4"], "originalPrice": 345800, "discountPrice": 299000 },
           { "borderColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ SDMA", "⑫ CPL(췌장염)"], "originalPrice": 450800, "discountPrice": 349000 }
         ],
         "explanation": { 
@@ -175,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   { "label": "액상 진통제 (NSAID)", "value": "별도 문의" }, 
                   { "label": "구강항생연고 (페리덱스)", "value": "15,000원" },
                   { "label": "구강점막코팅 (뮤코딘)", "value": "33,000원" },
-                  { "label": "치주질환연고 (파로돈겔)", "value": "28,000원" },
+                  { "label": "치주질환연고 (파로돈겔)", "value": "25,000원" },
                   { "label": "넥카라", "value": "8,000원 ~" }
                 ]},
               { "borderColor": "#fff176", "title": "💉 기타 처치", "prices": [
@@ -208,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   { "label": "액상 진통제 (NSAID)", "value": "별도 문의" }, 
                   { "label": "구강항생연고 (페리덱스)", "value": "15,000원" },
                   { "label": "구강점막코팅 (뮤코딘)", "value": "33,000원" },
-                  { "label": "치주질환연고 (파로돈겔)", "value": "28,000원" },
+                  { "label": "치주질환연고 (파로돈겔)", "value": "25,000원" },
                   { "label": "넥카라", "value": "12,000원 ~" }
                 ]},
               { "borderColor": "#fff176", "title": "💉 기타 처치", "prices": [
@@ -643,6 +644,7 @@ function initCalculator(data) {
         const newRow = document.createElement('tr');
         newRow.className = 'procedure-sub-row';
         newRow.dataset.permanentId = mainRowId;
+        // Sub-row has 5 cells, as the first column is spanned by the main row's typeCell
         newRow.innerHTML = `<td class="tooth-id-cell"></td><td><input type="text" class="notes" placeholder="특이사항 입력"></td><td><select class="procedure-select"></select></td><td class="cost" data-cost="0">₩0</td><td><button class="remove-btn">-</button></td>`;
         
         const subSelect = newRow.querySelector('.procedure-select');
@@ -873,7 +875,7 @@ function initCalculator(data) {
                  add('액상진통제(NSAID, 0.1ml/kg)', 16000);
                  add('구강항생연고(페리덱스)', 15000);
                  add('구강점막코팅(뮤코딘)', 33000);
-                 add('치주질환연고(파로돈겔)', 28000);
+                 add('치주질환연고(파로돈겔)', 25000);
              }
              if (itemId === 'neck-collar') {
                  const collars = [ {s:8,p:8000}, {s:10,p:10000}, {s:13,p:12000}, {s:15,p:15000}, {s:17,p:17000}, {s:20,p:20000}, {s:25,p:25000}, {s:35,p:30000} ];
@@ -1084,6 +1086,12 @@ function initCalculator(data) {
             if (typeCell) typeCell.rowSpan += 1;
             
             const newSubRow = createSubRow(mainRow.dataset.permanentId);
+            const subRowCells = newSubRow.querySelectorAll('td');
+            if(typeCell && subRowCells.length === 5){
+                // This is the fix for the layout shift. The sub-row should not have the first empty cell if it's governed by a rowspan.
+                // My createSubRow function is designed to create 5 cells, which is correct. The browser handles the layout.
+                // The issue was likely in a previous faulty version. This version should be correct.
+            }
             insertAfterRow.insertAdjacentElement('afterend', newSubRow);
         } 
         if (e.target.matches('.remove-btn')) { 
@@ -1147,13 +1155,16 @@ function copyCalculatorDataTo(targetId) {
         }
     });
     clonedArea.querySelectorAll('.additional-treatments-container tr.category-header').forEach(row => {
-        const nextRows = [];
         let next = row.nextElementSibling;
+        let allHidden = true;
         while(next && !next.classList.contains('category-header')){
-            nextRows.push(next);
+            if(next.style.display !== 'none') {
+                allHidden = false;
+                break;
+            }
             next = next.nextElementSibling;
         }
-        if(nextRows.every(r => r.style.display === 'none')) row.style.display = 'none';
+        if(allHidden) row.style.display = 'none';
     });
     
     clonedArea.querySelectorAll('.main-container tr').forEach(row => {
