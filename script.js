@@ -1,5 +1,5 @@
 /*
-  [v6.3 최종 업데이트 내역]
+  [v6.4 최종 업데이트 내역]
   - 버그 수정: 계산기 초기 로딩 시 발생하던 TypeError를 해결하여 계산기 탭이 정상적으로 표시되도록 수정
   - 버그 수정: 단일 행 치아(송곳니 등)에 시술 추가 시 테이블 레이아웃이 밀리는 현상 완벽히 해결
   - 데이터 수정: 파로돈겔 가격을 25,000원으로 정확하게 수정
@@ -7,6 +7,7 @@
   - 기능 유지: '모니터링' 선택 시 특정 색상으로 강조되는 기능 유지 확인
   - UI 개선: 추가 처치 내역을 명확한 카테고리로 재구성하고 이모티콘 추가
   - 데이터 검증: 20kg 이하/이상 건강검진 비용 데이터 최종 확인
+  - 데이터 수정: 엑셀 파일 기반으로 모든 추가 처치 비용 최신화
 */
 document.addEventListener('DOMContentLoaded', () => {
     const hospitalData = {
@@ -563,12 +564,6 @@ function initCalculator(data) {
             {l:'신경치료-대구치', v:880000, r:[3]},
             {l:'신경치료-열육치(PM4)', v:880000, t:['108','208']}
         ]},
-        'VPT (생활치수절단술)': { cat: '신경/보존 치료', items: [
-            {l:'VPT-송곳니/뿌리1,2,3(1홈)', v:450000},
-            {l:'VPT-뿌리2(2홈)', v:550000, r:[2,3]},
-            {l:'VPT-뿌리2,3(3홈)', v:660000, r:[2,3]},
-            {l:'VPT-뿌리3(4홈)', v:770000, r:[3]}
-        ]},
         '레진': { cat: '신경/보존 치료', items: [
             {l:'레진-3mm이하', v:55000},
             {l:'레진-송곳니', v:110000, t:['104','204','304','404']},
@@ -621,6 +616,31 @@ function initCalculator(data) {
                     addOption(select, item.l, price, data.cat, item.tag || '');
                 }
             });
+        }
+
+        // Custom VPT logic
+        addOption(select, `▼ VPT (생활치수절단술)`, 'disabled');
+        const vptCategory = '신경/보존 치료';
+        if (isSmallDog) { // < 10kg
+            if (roots === 1) {
+                addOption(select, 'VPT', 450000, vptCategory);
+            } else if (roots === 2) {
+                addOption(select, 'VPT-1홀', 450000, vptCategory);
+                addOption(select, 'VPT-2홀', 660000, vptCategory);
+            } else if (roots === 3) {
+                addOption(select, 'VPT-1홀', 450000, vptCategory);
+                addOption(select, 'VPT-3홀', 660000, vptCategory);
+            }
+        } else { // >= 10kg
+            if (roots === 1) {
+                addOption(select, 'VPT', 550000, vptCategory);
+            } else if (roots === 2) {
+                addOption(select, 'VPT-1홀', 550000, vptCategory);
+                addOption(select, 'VPT-2홀', 770000, vptCategory);
+            } else if (roots === 3) {
+                addOption(select, 'VPT-1홀', 550000, vptCategory);
+                addOption(select, 'VPT-3홀', 880000, vptCategory);
+            }
         }
     }
     
