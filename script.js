@@ -1,20 +1,12 @@
 /*
-  [v6.0 업데이트 내역]
-  - 대시보드 탭 순서 변경 (수술 과정 탭 전진 배치)
-  - 수술 과정 탭: 유튜브 영상 링크 및 최신 타임라인 콘텐츠 적용 (이미지 기반)
-  - 건강검진 탭: 최신 수가 및 검사항목 반영, 추가 검사 안내 문구 추가, 유튜브 링크 추가
-  - 스케일링 탭: 최신 수가 및 시술 항목명 변경
-  - 발치비용 탭 -> '수술비용'으로 명칭 변경, 치아 모식도 이미지 삽입, 전체 수술 항목 최신화
-  - 추가처치 탭: 전체 항목 최신화 (파로돈겔 등 포함)
-  - 신경치료 탭 -> '신경 및 보존 치료'로 명칭 변경, 전체 항목 최신화, 설명 문구 보강
-  - 치료비 계산기: 모든 시술/처치 항목 및 가격을 최신 엑셀 기준으로 전면 개편
-    - 몸무게 기반 가격 자동 연동 및 항목 노출/숨김 기능 강화
-    - 시술 선택 시 카테고리별로 다른 색상 하이라이트 적용 (모니터링 강조)
-    - 추가 처치 항목을 2열 테이블로 분리하여 가독성 개선
-    - 건강검진, 스케일링 패키지 항목 추가 및 타병원 검사 시 추가금 옵션 구현
-    - 내복약, 넥카라 등 모든 옵션이 드롭다운에 노출되도록 수정
-    - 페이지 로드 시 시술선택 기본값('시술을 선택하세요')으로 초기화되도록 수정
-  - 데이터 미저장 시 페이지 이탈 방지 경고 기능 활성화
+  [v6.1 업데이트 내역]
+  - 계산기: 송곳니 등 단일 행 치아에 시술 추가 시 테이블 레이아웃이 밀리는 현상 수정
+  - 계산기: 시술 선택 목록을 요청된 새 카테고리(발치, 치주수술, 신경치료 등) 기준으로 전면 개편
+  - 건강검진(<20kg): 누락되었던 '사상충 검사 제외' 플랜 데이터 추가 및 버튼 기능 활성화
+  - 계산기: '유치' 관련 시술 선택 시, 치아 번호가 유치 번호(501, 601 등)로 자동 변경되는 기능 복원
+  - 계산기: '모니터링' 시술 선택 시, 치아 번호 셀이 눈에 띄는 색상으로 강조되는 기능 확인 및 유지
+  - 이미지: 깨진 치아 모식도 이미지 링크 수정
+  - 데이터: 부정확한 '수면절개' 항목 삭제
 */
 document.addEventListener('DOMContentLoaded', () => {
     const hospitalData = {
@@ -71,10 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
         "headerTitle": "🩺✨ 우리 댕댕이 맞춤! 안심 건강검진 ✨🩺",
         "headerSubtitle": "💖 안전한 마취를 위한 첫걸음! 🌈 20kg 미만 아이들을 위한 플랜입니다! 💖",
         "packagesWith4Dx": [
-          { "borderColor": "#4db6ac", "titleColor": "#00796b", "title": "🍼 1세 미만 퍼피 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 7종", "⑤ 전해질검사", "⑥ 흉부엑스레이 3컷", "⑦ 혈압", "⑧ 4dx"], "originalPrice": 283800, "discountPrice": 199000 },
-          { "borderColor": "#ffd54f", "titleColor": "#f9a825", "title": "💪 7세 미만 성견 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 4dx"], "originalPrice": 433800, "discountPrice": 299000 },
-          { "borderColor": "#ff8a65", "titleColor": "#d84315", "title": "👑 7세 이상 성견 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA", "⑭ 4dx"], "originalPrice": 599800, "discountPrice": 439000 },
-          { "borderColor": "#ba68c8", "titleColor": "#7b1fa2", "title": "💎 7세 이상 성견 VIP 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA", "⑭ 안과종합검진", "⑮ 4dx"], "originalPrice": 694800, "discountPrice": 489000 }
+          { "borderColor": "#4db6ac", "title": "🍼 1세 미만 퍼피 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 7종", "⑤ 전해질검사", "⑥ 흉부엑스레이 3컷", "⑦ 혈압", "⑧ 4dx"], "originalPrice": 283800, "discountPrice": 199000 },
+          { "borderColor": "#ffd54f", "title": "💪 7세 미만 성견 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 4dx"], "originalPrice": 433800, "discountPrice": 299000 },
+          { "borderColor": "#ff8a65", "title": "👑 7세 이상 성견 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA", "⑭ 4dx"], "originalPrice": 599800, "discountPrice": 439000 },
+          { "borderColor": "#ba68c8", "title": "💎 7세 이상 성견 VIP 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA", "⑭ 안과종합검진", "⑮ 4dx"], "originalPrice": 694800, "discountPrice": 489000 }
+        ],
+        "packagesWithout4Dx": [
+          { "borderColor": "#4db6ac", "title": "🍼 1세 미만 퍼피 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 7종", "⑤ 전해질검사", "⑥ 흉부엑스레이 3컷", "⑦ 혈압"], "originalPrice": 244800, "discountPrice": 160000 },
+          { "borderColor": "#ffd54f", "title": "💪 7세 미만 성견 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사"], "originalPrice": 388800, "discountPrice": 260000 },
+          { "borderColor": "#ff8a65", "title": "👑 7세 이상 성견 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA"], "originalPrice": 554800, "discountPrice": 399000 },
+          { "borderColor": "#ba68c8", "title": "💎 7세 이상 성견 VIP 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA", "⑭ 안과종합검진"], "originalPrice": 649800, "discountPrice": 449000 }
         ],
         "explanation": { 
             "title": "💡 꼭 확인해주세요! 추가 검사 안내 💡", 
@@ -91,14 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
         "headerSubtitle": "💖 안전한 마취를 위한 첫걸음! 🌈 20kg 이상 아이들을 위한 플랜입니다! 💖",
         "largeDogExplanation": "<p>우리 듬직한 댕댕이들을 위한 플랜은 왜 따로 있냐구요~? 😚<br>몸집이 아주 큰 아이들은 일반 엑스레이 테이블에 올라가기가 어려워서, 부득이하게 엑스레이 검사를 제외한 맞춤 플랜으로 구성했답니다.<br>아이의 안전을 위한 결정이니 보호자님의 너른 양해 부탁드려요! 🙏</p>",
         "packagesWith4Dx": [
-          { "borderColor": "#228B22", "titleColor": "#228B22", "title": "🌳 큰 아이 안심 맞춤설계 (7세미만)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ 4dx"], "originalPrice": 390800, "discountPrice": 344000 },
-          { "borderColor": "#FF8C00", "titleColor": "#FF8C00", "title": "🍂 큰 아이 안심 맞춤설계 (7세이상)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ 4dx"], "originalPrice": 390800, "discountPrice": 344000 },
-          { "borderColor": "#B22222", "titleColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ SDMA", "⑫ CPL(췌장염)", "⑬ 4dx"], "originalPrice": 495800, "discountPrice": 394000 }
+          { "borderColor": "#228B22", "title": "🌳 큰 아이 안심 맞춤설계 (7세미만)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ 4dx"], "originalPrice": 390800, "discountPrice": 344000 },
+          { "borderColor": "#FF8C00", "title": "🍂 큰 아이 안심 맞춤설계 (7세이상)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ 4dx"], "originalPrice": 390800, "discountPrice": 344000 },
+          { "borderColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ SDMA", "⑫ CPL(췌장염)", "⑬ 4dx"], "originalPrice": 495800, "discountPrice": 394000 }
         ],
         "packagesWithout4Dx": [
-          { "borderColor": "#228B22", "titleColor": "#228B22", "title": "🌳 큰 아이 맞춤설계 (7세미만)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp"], "originalPrice": 295800, "discountPrice": 249000 },
-          { "borderColor": "#FF8C00", "titleColor": "#FF8C00", "title": "🍂 큰 아이 맞춤설계 (7세이상)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4"], "originalPrice": 345800, "discountPrice": 299000 },
-          { "borderColor": "#B22222", "titleColor": "#B22222", "title": "🍁 큰 아이 맞춤설계 (7세이상 심화)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ SDMA", "⑫ CPL(췌장염)"], "originalPrice": 450800, "discountPrice": 349000 }
+          { "borderColor": "#228B22", "title": "🌳 큰 아이 맞춤설계 (7세미만)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp"], "originalPrice": 295800, "discountPrice": 249000 },
+          { "borderColor": "#FF8C00", "title": "🍂 큰 아이 맞춤설계 (7세이상)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4"], "originalPrice": 345800, "discountPrice": 299000 },
+          { "borderColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ SDMA", "⑫ CPL(췌장염)"], "originalPrice": 450800, "discountPrice": 349000 }
         ],
         "explanation": { 
             "title": "💡 꼭 확인해주세요! 추가 검사 안내 💡", 
@@ -181,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   { "label": "넥카라", "value": "8,000원 ~" }
                 ]},
               { "borderColor": "#fff176", "title": "💉 기타 처치", "prices": [
-                  { "label": "수면절개", "value": "11,000원" },
                   { "label": "도입마취 변경(알팍산)", "value": "33,000 ~ 44,000원" },
                   { "label": "수액첨가제(헤파멜즈)", "value": "15,000원" }
                 ]}
@@ -215,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   { "label": "넥카라", "value": "12,000원 ~" }
                 ]},
               { "borderColor": "#fff176", "title": "💉 기타 처치", "prices": [
-                  { "label": "수면절개", "value": "11,000원" },
                   { "label": "도입마취 변경(알팍산)", "value": "55,000원 ~" },
                   { "label": "수액첨가제(헤파멜즈)", "value": "15,000원" }
                 ]}
@@ -366,16 +362,17 @@ function populateContent(data) {
             <div>${(data.healthCheck.explanation.content || []).map(p => `<p>${p}</p>`).join('')}</div>
         `;
 
-        const renderSmallHealthCheck = (packages) => renderHealthCheckPackages('small', packages);
-        renderSmallHealthCheck(data.healthCheck.packagesWith4Dx);
+        renderHealthCheckPackages('small', data.healthCheck.packagesWith4Dx);
         
         with4dxBtn.addEventListener('click', () => {
-            renderSmallHealthCheck(data.healthCheck.packagesWith4Dx);
+            renderHealthCheckPackages('small', data.healthCheck.packagesWith4Dx);
             with4dxBtn.classList.add('active');
             without4dxBtn.classList.remove('active');
         });
         without4dxBtn.addEventListener('click', () => {
-            alert('사상충 검사 제외 옵션은 현재 준비 중입니다. 포함된 플랜을 확인해주세요.');
+            renderHealthCheckPackages('small', data.healthCheck.packagesWithout4Dx);
+            without4dxBtn.classList.add('active');
+            with4dxBtn.classList.remove('active');
         });
     }
 
@@ -522,7 +519,7 @@ function setupPageNavigation() {
 function initCalculator(data) {
     const page = document.querySelector('#Calculator-Page');
     if (!page) return;
-    const CURRENT_VERSION = "6.0-dog";
+    const CURRENT_VERSION = "6.1-dog";
     let isChartDirty = false;
 
     const toothData = {
@@ -531,27 +528,72 @@ function initCalculator(data) {
         'table-upper-left':  [ { id: '201', type: '앞이빨', group: 3 }, { id: '202', type: '' }, { id: '203', type: '' }, { id: '204', type: '송곳니', group: 1 }, { id: '205', type: '작은<br>어금니', group: 4 }, { id: '206', type: '' }, { id: '207', type: '' }, { id: '208', type: '열육치' }, { id: '209', type: '큰<br>어금니', group: 2 }, { id: '210', type: '' } ],
         'table-lower-left':  [ { id: '301', type: '앞이빨', group: 3 }, { id: '302', type: '' }, { id: '303', type: '' }, { id: '304', type: '송곳니', group: 1 }, { id: '305', type: '작은<br>어금니', group: 4 }, { id: '306', type: '' }, { id: '307', type: '' }, { id: '308', type: '' }, { id: '309', type: '대구치', group: 3 }, { id: '310', type: '' }, { id: '311', type: '' } ]
     };
-    const rootMapping = { '101':1,'102':1,'103':1,'104':1,'105':1,'106':2,'107':2,'108':3,'109':2,'110':2, '201':1,'202':1,'203':1,'204':1,'205':1,'206':2,'207':2,'208':3,'209':2,'210':2, '301':1,'302':1,'303':1,'304':1,'305':1,'306':2,'307':2,'308':2,'309':2,'310':2,'311':2, '401':1,'402':1,'403':1,'404':1,'405':1,'406':2,'407':2,'408':2,'409':2,'410':2,'411':2, '108_canine': 3, '208_canine': 3, '409_canine': 2 };
+    const rootMapping = { '101':1,'102':1,'103':1,'104':1,'105':1,'106':2,'107':2,'108':3,'109':2,'110':2, '201':1,'202':1,'203':1,'204':1,'205':1,'206':2,'207':2,'208':3,'209':2,'210':2, '301':1,'302':1,'303':1,'304':1,'305':1,'306':2,'307':2,'308':2,'309':2,'310':2,'311':2, '401':1,'402':1,'403':1,'404':1,'405':1,'406':2,'407':2,'408':2,'409':2,'410':2,'411':2 };
 
     const procedureList = {
-        '기본발치': { cat: '발치/제거', items: [ {l:'뿌리 1개', s:22000, lrg:33000, r:[1]}, {l:'뿌리 2개(작은어금니)', s:66000, lrg:77000, r:[2]}, {l:'뿌리 3개,대구치', s:88000, lrg:110000, r:[3]}, {l:'열육치(PM4)', s:88000, lrg:110000, t:['108','208']} ]},
-        '수술발치': { cat: '발치/제거', items: [ {l:'뿌리 1개', s:44000, lrg:66000, r:[1]}, {l:'뿌리 2개', s:120000, lrg:140000, r:[2]}, {l:'뿌리 3개/대구치', s:220000, lrg:320000, r:[3]}, {l:'열육치(PM4)', s:220000, lrg:320000, t:['108','208']}, {l:'송곳니(상악)', s:220000, lrg:320000, t:['104','204']}, {l:'송곳니(하악)', s:270000, lrg:370000, t:['304','404']}, {l:'강아지 대구치', s:220000, lrg:370000, t:['409']} ]},
-        '유치발치': { cat: '발치/제거', items: [ {l:'일반', s:22000, lrg:33000}, {l:'송곳니(x-ray 없이)', s:22000, lrg:33000, t:['104','204','304','404']}, {l:'송곳니(x-ray 포함)', s:33000, lrg:44000, t:['104','204','304','404']}, {l:'송곳니(수술발치)', s:66000, lrg:66000, t:['104','204','304','404']} ]},
-        '특수발치': { cat: '발치/제거', items: [ {l:'치아흡수-뿌리 1개', s:44000, lrg:55000, r:[1]}, {l:'치아흡수-뿌리 2개', s:88000, lrg:99000, r:[2]}, {l:'치아흡수-뿌리 3개', s:140000, lrg:160000, r:[3]}, {l:'함치성낭 제거술', s:220000, lrg:270000} ]},
-        '잔존치근제거': { cat: '발치/제거', items: [ {l:'뿌리 1개', s:55000, lrg:77000, r:[1]}, {l:'뿌리 2개', s:120000, lrg:120000, r:[2]}, {l:'구개측(어금니)', s:160000, lrg:160000}, {l:'상악 송곳니', s:250000, lrg:350000, t:['104','204']}, {l:'하악 송곳니', s:300000, lrg:400000, t:['304','404']} ]},
-        '잇몸종양': { cat: '발치/제거', items: [ {l:'1cm 이하', s:110000, lrg:110000}, {l:'1cm 이상', s:220000, lrg:220000} ]},
-        'VPT': { cat: '신경/보존 치료', items: [ {l:'송곳니/뿌리1,2,3(1홈)', v:450000}, {l:'뿌리2(2홈)', v:550000}, {l:'뿌리2,3(3홈)', v:660000}, {l:'뿌리3(4홈)', v:770000} ]},
-        '신경치료': { cat: '신경/보존 치료', items: [ {l:'앞이빨', v:550000, r:[1], not:['104','204','304','404']}, {l:'뿌리 2개 치아', v:660000, r:[2]}, {l:'송곳니', v:770000, t:['104','204','304','404']}, {l:'대구치', v:880000, r:[3]}, {l:'열육치(PM4)', v:880000, t:['108', '208']} ]},
-        '레진': { cat: '신경/보존 치료', items: [ {l:'3mm 이하', v:55000}, {l:'어금니', v:130000, r:[2,3]}, {l:'송곳니', v:110000, t:['104','204','304','404']} ]},
-        '치주치료': { cat: '치주 치료', items: [ {l:'치근활택술', v:45000}, {l:'개방 치근활택술(봉합)', v:220000}, {l:'미노클린', v:22000}, {l:'엠도게인', v:99000}, {l:'차폐막', v:100000}, {l:'인공뼈 이식', v:200000}, {l:'잇몸 성형', v:50000}, {l:'잇몸 봉합', v:33000} ]},
-        '기타': { cat: '기타', items: [ {l:'조직검사', v:170000}, {l:'항생제 감수성 검사', v:143000}, {l:'함치성 치낭 제거술', s:220000, lrg:280000} ]},
-        '모니터링': { cat: '모니터링', items: [{l:'모니터링', v:0}] }
+        '발치': { cat: '발치/제거', items: [ 
+            {l:'일반-뿌리1', s:22000, lrg:33000, r:[1]}, 
+            {l:'일반-뿌리2', s:66000, lrg:77000, r:[2]}, 
+            {l:'일반-뿌리3/대구치', s:88000, lrg:110000, r:[3], t:['409']}, 
+            {l:'일반-열육치(PM4)', s:88000, lrg:110000, t:['108','208']},
+            {l:'수술-뿌리1', s:44000, lrg:66000, r:[1]}, 
+            {l:'수술-뿌리2', s:120000, lrg:140000, r:[2]}, 
+            {l:'수술-뿌리3/대구치', s:220000, lrg:320000, r:[3], t:['409']}, 
+            {l:'수술-열육치(PM4)', s:220000, lrg:320000, t:['108','208']},
+            {l:'수술-송곳니(상)', s:220000, lrg:320000, t:['104','204']}, 
+            {l:'수술-송곳니(하)', s:270000, lrg:370000, t:['304','404']},
+            {l:'유치-일반', s:22000, lrg:33000, tag:'deciduous'}, 
+            {l:'유치-송곳니(x-rayX)', s:22000, lrg:33000, t:['104','204','304','404'], tag:'deciduous'},
+            {l:'유치-송곳니(x-rayO)', s:33000, lrg:44000, t:['104','204','304','404'], tag:'deciduous'},
+            {l:'유치-송곳니(수술)', s:66000, lrg:66000, t:['104','204','304','404'], tag:'deciduous'},
+            {l:'특수-치아흡수-뿌리1', s:44000, lrg:55000, r:[1]},
+            {l:'특수-치아흡수-뿌리2', s:88000, lrg:99000, r:[2]},
+            {l:'특수-치아흡수-뿌리3', s:140000, lrg:160000, r:[3]}
+        ]},
+        '치주 수술': { cat: '치주 치료', items: [
+            {l:'치근활택술', v:45000}, 
+            {l:'개방 치근활택술', v:220000}, 
+            {l:'미노클린', v:22000}, 
+            {l:'엠도게인', v:99000}
+        ]},
+        '신경치료': { cat: '신경/보존 치료', items: [
+            {l:'신경치료-앞이빨', v:550000, r:[1], not:['104','204','304','404']},
+            {l:'신경치료-뿌리2', v:660000, r:[2]},
+            {l:'신경치료-송곳니', v:770000, t:['104','204','304','404']},
+            {l:'신경치료-대구치', v:880000, r:[3]},
+            {l:'신경치료-열육치(PM4)', v:880000, t:['108','208']}
+        ]},
+        'VPT (생활치수절단술)': { cat: '신경/보존 치료', items: [
+            {l:'VPT-송곳니/뿌리1,2,3(1홈)', v:450000},
+            {l:'VPT-뿌리2(2홈)', v:550000, r:[2,3]},
+            {l:'VPT-뿌리2,3(3홈)', v:660000, r:[2,3]},
+            {l:'VPT-뿌리3(4홈)', v:770000, r:[3]}
+        ]},
+        '레진': { cat: '신경/보존 치료', items: [
+            {l:'레진-3mm이하', v:55000},
+            {l:'레진-송곳니', v:110000, t:['104','204','304','404']},
+            {l:'레진-어금니', v:130000, r:[2,3]}
+        ]},
+        '기타 처치': { cat: '기타', items: [
+            {l:'함치성 치낭 제거', s:220000, lrg:280000},
+            {l:'잔존치근제거-뿌리1', s:55000, lrg:77000, r:[1]},
+            {l:'잔존치근제거-뿌리2', s:120000, lrg:120000, r:[2]},
+            {l:'잇몸종양-1cm이하', s:110000, lrg:110000},
+            {l:'잇몸종양-1cm이상', s:220000, lrg:220000},
+            {l:'항생제 감수성 검사', v:143000},
+            {l:'잇몸성형', v:50000},
+            {l:'잇몸봉합', v:33000}
+        ]},
+        '모니터링': { cat: '모니터링', items: [ {l:'모니터링', v:0} ]}
     };
 
-    function addOption(select, text, value, category = '') {
+    function addOption(select, text, value, category = '', tag = '') {
         const opt = new Option(text, value);
         if (value === 'disabled') opt.disabled = true;
-        else opt.dataset.category = category;
+        else {
+            opt.dataset.category = category;
+            if(tag) opt.dataset.tag = tag;
+        }
         select.add(opt);
     }
     
@@ -566,11 +608,8 @@ function initCalculator(data) {
             addOption(select, `▼ ${title}`, 'disabled');
             data.items.forEach(item => {
                 let price = 0;
-                if (item.v !== undefined) {
-                    price = item.v;
-                } else {
-                    price = isSmallDog ? item.s : item.lrg;
-                }
+                if (item.v !== undefined) price = item.v;
+                else price = isSmallDog ? item.s : item.lrg;
     
                 if (price === undefined) return;
     
@@ -579,7 +618,7 @@ function initCalculator(data) {
                 const notToothMatch = !item.not || !item.not.includes(toothId);
     
                 if (rootMatch && toothMatch && notToothMatch) {
-                    addOption(select, item.l, price, data.cat);
+                    addOption(select, item.l, price, data.cat, item.tag || '');
                 }
             });
         }
@@ -595,7 +634,7 @@ function initCalculator(data) {
         const weight = parseFloat(page.querySelector('#patient-weight-calc').value) || 5;
         populateProcedureSelect(mainSelect, tooth.id, weight);
         mainSelect.value = procedures.length > 0 ? (procedures[0] || '0') : '0';
-        handleSelectionChange(mainSelect); // to set initial cost and highlight
+        handleSelectionChange(mainSelect);
     
         return row;
     }
@@ -604,7 +643,7 @@ function initCalculator(data) {
         const newRow = document.createElement('tr');
         newRow.className = 'procedure-sub-row';
         newRow.dataset.permanentId = mainRowId;
-        newRow.innerHTML = `<td class="tooth-id-cell"></td><td><input type="text" class="notes" placeholder="특이사항 입력"></td><td><select class="procedure-select"></select></td><td class="cost" data-cost="0">₩0</td><td><button class="remove-btn">-</button></td>`;
+        newRow.innerHTML = `<td></td><td class="tooth-id-cell"></td><td><input type="text" class="notes" placeholder="특이사항 입력"></td><td><select class="procedure-select"></select></td><td class="cost" data-cost="0">₩0</td><td><button class="remove-btn">-</button></td>`;
         
         const subSelect = newRow.querySelector('.procedure-select');
         const weight = parseFloat(page.querySelector('#patient-weight-calc').value) || 5;
@@ -647,17 +686,8 @@ function initCalculator(data) {
         
         const typeCell = row.querySelector('td.tooth-type') || findGoverningTypeCell(row);
         if(typeCell) {
-            const rowsToCheck = typeCell.rowSpan;
-            let currentRow = typeCell.parentElement;
-            let isAnyRowInGroupHighlighted = false;
-            for (let i = 0; i < rowsToCheck; i++) {
-                if (!currentRow) break;
-                if (currentRow.classList.contains('row-highlight')) {
-                    isAnyRowInGroupHighlighted = true;
-                    break;
-                }
-                currentRow = currentRow.nextElementSibling;
-            }
+            const rowsInGroup = Array.from(typeCell.parentElement.parentElement.children).filter(r => r.querySelector('.tooth-type') === typeCell || findGoverningTypeCell(r) === typeCell);
+            let isAnyRowInGroupHighlighted = rowsInGroup.some(r => r.classList.contains('row-highlight'));
             typeCell.style.backgroundColor = isAnyRowInGroupHighlighted ? '#f0f0f0' : '';
         }
     }
@@ -667,11 +697,13 @@ function initCalculator(data) {
         if (!row) return;
     
         let cost = 0;
+        let selectedOption = null;
+
         if (target.matches('select')) {
             cost = parseInt(target.value, 10) || 0;
+            selectedOption = target.options[target.selectedIndex];
         }
 
-        // For additional treatments, the cost is embedded in the value
         if (row.classList.contains('additional-row')) {
             const [text, priceStr] = target.value.split('|');
             cost = parseInt(priceStr, 10) || 0;
@@ -680,12 +712,23 @@ function initCalculator(data) {
                 costCell.textContent = '₩' + cost.toLocaleString('ko-KR');
                 costCell.dataset.cost = cost;
             }
-             row.classList.toggle('selected-row', cost > 0);
-        } else { // For main dental chart
+             row.classList.toggle('selected-row', target.value !== '선택안함|0');
+        } else { 
             const costCell = row.querySelector('.cost');
             if(costCell) {
                 costCell.textContent = '₩' + cost.toLocaleString('ko-KR');
                 costCell.dataset.cost = cost;
+            }
+            const idCell = row.querySelector('.tooth-id-cell');
+            if (idCell) {
+                const permanentId = row.dataset.permanentId;
+                if (selectedOption && selectedOption.dataset.tag === 'deciduous') {
+                    const firstDigit = permanentId[0];
+                    const newFirstDigit = {'1':'5', '2':'6', '3':'7', '4':'8'}[firstDigit];
+                    idCell.textContent = newFirstDigit + permanentId.substring(1);
+                } else {
+                     idCell.textContent = row.classList.contains('procedure-sub-row') ? '' : permanentId;
+                }
             }
         }
 
@@ -696,9 +739,10 @@ function initCalculator(data) {
     
     function findGoverningTypeCell(row) {
         let current = row;
-        while(current = current.previousElementSibling){
+        while(current) {
             const cell = current.querySelector('td.tooth-type');
             if (cell) return cell;
+            current = current.previousElementSibling;
         }
         return null;
     }
@@ -710,13 +754,8 @@ function initCalculator(data) {
             const currentValue = select.value;
             populateProcedureSelect(select, toothId, weight);
             
-            // Try to restore the previous value
             const optionExists = Array.from(select.options).some(opt => opt.value === currentValue);
-            if(optionExists) {
-                select.value = currentValue;
-            } else {
-                select.value = '0';
-            }
+            select.value = optionExists ? currentValue : '0';
             handleSelectionChange(select);
         });
     }
@@ -728,14 +767,12 @@ function initCalculator(data) {
         tbody2.innerHTML = '';
 
         const treatments = [
-            // Column 1
             { id: 'health-check', name: '🩺 건강검진 비용' },
             { id: 'scaling-package', name: '🦷 스케일링 패키지' },
             { id: 'anesthesia-pre', name: '💉 마취 전 처치' },
             { id: 'anesthesia-ext', name: '⏳ 마취 시간 연장' },
             { id: 'pain-control', name: '🩹 통증 관리' },
             { id: 'recovery-promo', name: '🚀 회복/재생 촉진' },
-            // Column 2
             { id: 'medication', name: '🏡 내복약' },
             { id: 'home-care-meds', name: '🧴 홈케어 연고/용품' },
             { id: 'neck-collar', name: '👑 넥카라' },
@@ -780,6 +817,10 @@ function initCalculator(data) {
                      add('(<20kg) 7세미만 성견 안심(4dx O)', 299000);
                      add('(<20kg) 7세이상 성견 안심(4dx O)', 439000);
                      add('(<20kg) 7세이상 VIP 안심(4dx O)', 489000);
+                     add('(<20kg) 1세미만 퍼피(4dx X)', 160000);
+                     add('(<20kg) 7세미만 성견(4dx X)', 260000);
+                     add('(<20kg) 7세이상 성견(4dx X)', 399000);
+                     add('(<20kg) 7세이상 VIP(4dx X)', 449000);
                 } else if (weight >= 20) {
                      add('(20kg≥) 큰아이 7세미만(4dx O)', 344000);
                      add('(20kg≥) 큰아이 7세이상(4dx O)', 344000);
@@ -798,7 +839,6 @@ function initCalculator(data) {
                 }
             }
              if (itemId === 'anesthesia-pre') {
-                 add('수면절개', 11000);
                  if (isSmall) add('도입마취 변경(알팍산, <10kg)', weight < 5 ? 33000:44000);
                  if (isLarge) add('도입마취 변경(알팍산, 10kg≤)', weight < 15 ? 55000:66000);
              }
@@ -837,7 +877,7 @@ function initCalculator(data) {
                  }
             }
              if (itemId === 'home-care-meds') {
-                 add('액상진통제(NSAID, 0.1ml/kg)', 16000); // Base price
+                 add('액상진통제(NSAID, 0.1ml/kg)', 16000);
                  add('구강항생연고(페리덱스)', 15000);
                  add('구강점막코팅(뮤코딘)', 33000);
                  add('치주질환연고(파로돈겔)', 28000);
@@ -865,7 +905,10 @@ function initCalculator(data) {
         page.querySelectorAll('.main-container .cost').forEach(cell => dentalSurgeryCost += parseInt(cell.dataset.cost, 10) || 0);
         
         let additionalTreatmentCost = 0;
-        page.querySelectorAll('.additional-treatments-container .cost').forEach(cell => additionalTreatmentCost += parseInt(cell.dataset.cost, 10) || 0);
+        page.querySelectorAll('.additional-treatments-container select').forEach(select => {
+            const [text, priceStr] = select.value.split('|');
+            additionalTreatmentCost += parseInt(priceStr, 10) || 0;
+        });
 
         page.querySelector('.dental-surgery-cost-display').textContent = '₩' + dentalSurgeryCost.toLocaleString('ko-KR');
         page.querySelector('.additional-treatment-cost-display').textContent = '₩' + additionalTreatmentCost.toLocaleString('ko-KR');
@@ -961,14 +1004,11 @@ function initCalculator(data) {
                 page.querySelector('#visit-date-calc').value = chartData.visitDate || new Date().toISOString().split('T')[0];
                 page.querySelector('#patient-weight-calc').value = chartData.patientWeight || '';
                 
-                // Trigger updates based on new weight first
                 updateAllProcedureSelects();
                 updateAdditionalOptions();
 
-                // Clear existing dynamic rows
                 page.querySelectorAll('.main-container tbody').forEach(tbody => tbody.innerHTML = '');
                 
-                // Re-populate main chart
                 for (const [tableId, teeth] of Object.entries(toothData)) { 
                     const tableBody = page.querySelector(`.${tableId} tbody`);
                     teeth.forEach(tooth => {
@@ -982,10 +1022,10 @@ function initCalculator(data) {
                             let lastRow = mainRow;
                             for (let i = 1; i < proceduresForTooth.length; i++) {
                                 const entry = proceduresForTooth[i];
-                                const newSubRow = createSubRow(tooth.id, entry.procedure);
-                                newSubRow.querySelector('.notes').value = entry.notes;
                                 const typeCell = findGoverningTypeCell(lastRow);
                                 if (typeCell) typeCell.rowSpan += 1;
+                                const newSubRow = createSubRow(tooth.id, entry.procedure);
+                                newSubRow.querySelector('.notes').value = entry.notes;
                                 lastRow.insertAdjacentElement('afterend', newSubRow);
                                 lastRow = newSubRow;
                             }
@@ -993,7 +1033,6 @@ function initCalculator(data) {
                     });
                 }
                 
-                // Repopulate additional treatments
                 if (chartData.additionalTreatments) {
                     for (const [id, value] of Object.entries(chartData.additionalTreatments)) {
                         const control = page.querySelector(`[data-item-id="${id}"]`);
@@ -1001,8 +1040,6 @@ function initCalculator(data) {
                              if (Array.from(control.options).some(opt => opt.value === value)) {
                                 control.value = value;
                              } else {
-                                 // If exact value not found, try to add it dynamically or reset
-                                 // For simplicity here, we'll reset, but a more robust solution could be added.
                                  control.value = '선택안함|0';
                              }
                              handleSelectionChange(control);
@@ -1023,10 +1060,6 @@ function initCalculator(data) {
         reader.readAsText(file);
     }
     
-    // Initial Setup
-    page.querySelector('#visit-date-calc').valueAsDate = new Date();
-    
-    // Event listeners
     page.addEventListener('change', (e) => {
         if (e.target.matches('.procedure-select, .additional-treatments-container select')) {
             handleSelectionChange(e.target);
@@ -1050,8 +1083,12 @@ function initCalculator(data) {
             if (!mainRow) return;
             const typeCell = findGoverningTypeCell(mainRow);
             if (typeCell) typeCell.rowSpan += 1;
+
             let insertAfterRow = mainRow;
-            while(insertAfterRow.nextElementSibling && insertAfterRow.nextElementSibling.dataset.permanentId === mainRow.dataset.permanentId) insertAfterRow = insertAfterRow.nextElementSibling;
+            while(insertAfterRow.nextElementSibling && insertAfterRow.nextElementSibling.classList.contains('procedure-sub-row') && insertAfterRow.nextElementSibling.dataset.permanentId === mainRow.dataset.permanentId) {
+                insertAfterRow = insertAfterRow.nextElementSibling;
+            }
+            
             const newSubRow = createSubRow(mainRow.dataset.permanentId);
             insertAfterRow.insertAdjacentElement('afterend', newSubRow);
         } 
@@ -1066,6 +1103,7 @@ function initCalculator(data) {
         }
     });
 
+    page.querySelector('#visit-date-calc').valueAsDate = new Date();
     for (const [tableId, teeth] of Object.entries(toothData)) { 
         const tableBody = page.querySelector(`.${tableId} tbody`); 
         teeth.forEach(tooth => tableBody.appendChild(createMainRow(tooth))); 
@@ -1097,27 +1135,34 @@ function copyCalculatorDataTo(targetId) {
     
     const clonedArea = calculatorCaptureArea.cloneNode(true);
 
-    // Sync input and select values
     const sourceElements = calculatorCaptureArea.querySelectorAll('input, select');
     const clonedElements = clonedArea.querySelectorAll('input, select');
     sourceElements.forEach((sourceEl, index) => {
         const clonedEl = clonedElements[index];
         if (clonedEl) {
-            if (sourceEl.tagName === 'SELECT') {
-                clonedEl.selectedIndex = sourceEl.selectedIndex;
-            } else if (sourceEl.type === 'checkbox' || sourceEl.type === 'radio') {
-                clonedEl.checked = sourceEl.checked;
-            } else {
-                clonedEl.value = sourceEl.value;
-            }
+            if (sourceEl.tagName === 'SELECT') clonedEl.selectedIndex = sourceEl.selectedIndex;
+            else if (sourceEl.type === 'checkbox' || sourceEl.type === 'radio') clonedEl.checked = sourceEl.checked;
+            else clonedEl.value = sourceEl.value;
         }
     });
 
-    // Hide unselected additional treatments for export
     clonedArea.querySelectorAll('.additional-treatments-container tr.additional-row').forEach(row => {
         const select = row.querySelector('select');
         if (select && select.value === '선택안함|0') {
             row.style.display = 'none';
+        }
+    });
+    
+    clonedArea.querySelectorAll('.main-container tr').forEach(row => {
+        const select = row.querySelector('.procedure-select');
+        if (select && select.value === '0' && row.querySelector('.notes').value.trim() === '') {
+            if(!row.classList.contains('procedure-sub-row')) {
+                 const id = row.dataset.permanentId;
+                 const subRowCount = Array.from(row.parentElement.children).filter(r => r.classList.contains('procedure-sub-row') && r.dataset.permanentId === id).length;
+                 if(subRowCount === 0) row.style.display = 'none';
+            } else {
+                 row.style.display = 'none';
+            }
         }
     });
 
@@ -1198,10 +1243,18 @@ function addExportListeners(pageSelector, type) {
         const originalDisplay = patientInfoInputs ? patientInfoInputs.style.display : '';
         if (patientInfoInputs) patientInfoInputs.style.display = 'none';
 
-        // Temporarily hide unselected additional treatments for clean export
-        const unselectedRows = page.querySelectorAll('.additional-treatments-container tr.additional-row:not(.selected-row)');
-        unselectedRows.forEach(row => row.style.display = 'none');
+        const unselectedAddonRows = page.querySelectorAll('.additional-treatments-container tr.additional-row:not(.selected-row)');
+        unselectedAddonRows.forEach(row => row.style.display = 'none');
         
+        const unselectedDentalRows = page.querySelectorAll('.main-container tr');
+        unselectedDentalRows.forEach(row => {
+             const select = row.querySelector('.procedure-select');
+             const notes = row.querySelector('.notes');
+             if(select && select.value === '0' && notes && notes.value.trim() === '') {
+                 row.style.display = 'none';
+             }
+        });
+
         html2canvas(captureArea, { scale: 2, windowWidth: captureArea.scrollWidth, windowHeight: captureArea.scrollHeight, useCORS: true }).then(canvas => {
             const patientName = document.querySelector('#patient-name-calc').value || '환자';
             const date = document.querySelector('#visit-date-calc').value || new Date().toISOString().split('T')[0];
@@ -1209,7 +1262,8 @@ function addExportListeners(pageSelector, type) {
             exportFunc(canvas, fileName);
         }).finally(() => {
             if (patientInfoInputs) patientInfoInputs.style.display = originalDisplay;
-            unselectedRows.forEach(row => row.style.display = ''); // Restore visibility
+            unselectedAddonRows.forEach(row => row.style.display = '');
+            unselectedDentalRows.forEach(row => row.style.display = '');
         });
     };
 
