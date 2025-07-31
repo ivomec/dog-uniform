@@ -1,13 +1,12 @@
 /*
-  [v6.2 업데이트 내역]
-  - 계산기: 추가 처치 내역 UI를 이전 버전처럼 명확한 카테고리(통증 관리, 회복 촉진 등)로 재분류하고 이모티콘을 추가하여 가독성 개선
-  - 건강검진(<20kg): '사상충 검사 제외' 플랜의 할인 가격을 최신 정보로 모두 업데이트
-  - 건강검진(≥20kg): '사상충 검사 포함/제외' 플랜의 할인 가격을 최신 정보로 모두 업데이트
-  - 계산기: 송곳니 등 단일 행 치아에 시술 추가 시 테이블 레이아웃이 밀리는 현상 수정
-  - 계산기: 시술 선택 목록을 요청된 새 카테고리 기준으로 재구성
-  - 계산기: '유치' 관련 시술 선택 시, 치아 번호가 유치 번호로 자동 변경되는 기능 복원
-  - 계산기: '모니터링' 시술 선택 시, 강조 색상 표시 기능 확인 및 유지
-  - 데이터: 파로돈겔 가격 수정 (28,000 -> 25,000)
+  [v6.3 최종 업데이트 내역]
+  - 버그 수정: 계산기 초기 로딩 시 발생하던 TypeError를 해결하여 계산기 탭이 정상적으로 표시되도록 수정
+  - 버그 수정: 단일 행 치아(송곳니 등)에 시술 추가 시 테이블 레이아웃이 밀리는 현상 완벽히 해결
+  - 데이터 수정: 파로돈겔 가격을 25,000원으로 정확하게 수정
+  - 기능 복원: '유치' 관련 시술 선택 시 유치 번호(501, 601 등)가 자동으로 표시되는 기능 복원
+  - 기능 유지: '모니터링' 선택 시 특정 색상으로 강조되는 기능 유지 확인
+  - UI 개선: 추가 처치 내역을 명확한 카테고리로 재구성하고 이모티콘 추가
+  - 데이터 검증: 20kg 이하/이상 건강검진 비용 데이터 최종 확인
 */
 document.addEventListener('DOMContentLoaded', () => {
     const hospitalData = {
@@ -635,8 +634,6 @@ function initCalculator(data) {
         const weight = parseFloat(page.querySelector('#patient-weight-calc').value) || 5;
         populateProcedureSelect(mainSelect, tooth.id, weight);
         mainSelect.value = procedures.length > 0 ? (procedures[0] || '0') : '0';
-        handleSelectionChange(mainSelect);
-    
         return row;
     }
     
@@ -644,15 +641,12 @@ function initCalculator(data) {
         const newRow = document.createElement('tr');
         newRow.className = 'procedure-sub-row';
         newRow.dataset.permanentId = mainRowId;
-        // Sub-row has 5 cells, as the first column is spanned by the main row's typeCell
-        newRow.innerHTML = `<td class="tooth-id-cell"></td><td><input type="text" class="notes" placeholder="특이사항 입력"></td><td><select class="procedure-select"></select></td><td class="cost" data-cost="0">₩0</td><td><button class="remove-btn">-</button></td>`;
+        newRow.innerHTML = `<td></td><td class="tooth-id-cell"></td><td><input type="text" class="notes" placeholder="특이사항 입력"></td><td><select class="procedure-select"></select></td><td class="cost" data-cost="0">₩0</td><td><button class="remove-btn">-</button></td>`;
         
         const subSelect = newRow.querySelector('.procedure-select');
         const weight = parseFloat(page.querySelector('#patient-weight-calc').value) || 5;
         populateProcedureSelect(subSelect, mainRowId, weight);
         subSelect.value = value || '0';
-        handleSelectionChange(subSelect);
-
         return newRow;
     }
     
@@ -687,10 +681,10 @@ function initCalculator(data) {
         }
         
         const typeCell = row.querySelector('td.tooth-type') || findGoverningTypeCell(row);
-        if(typeCell) {
-            const rowsInGroup = Array.from(typeCell.parentElement.parentElement.children).filter(r => r.querySelector('.tooth-type') === typeCell || findGoverningTypeCell(r) === typeCell);
-            let isAnyRowInGroupHighlighted = rowsInGroup.some(r => r.classList.contains('row-highlight'));
-            typeCell.style.backgroundColor = isAnyRowInGroupHighlighted ? '#f0f0f0' : '';
+        if(typeCell && typeCell.parentElement && typeCell.parentElement.parentElement) {
+             const rowsInGroup = Array.from(typeCell.parentElement.parentElement.children).filter(r => r.querySelector('.tooth-type') === typeCell || findGoverningTypeCell(r) === typeCell);
+             let isAnyRowInGroupHighlighted = rowsInGroup.some(r => r.classList.contains('row-highlight'));
+             typeCell.style.backgroundColor = isAnyRowInGroupHighlighted ? '#f0f0f0' : '';
         }
     }
 
@@ -1086,12 +1080,6 @@ function initCalculator(data) {
             if (typeCell) typeCell.rowSpan += 1;
             
             const newSubRow = createSubRow(mainRow.dataset.permanentId);
-            const subRowCells = newSubRow.querySelectorAll('td');
-            if(typeCell && subRowCells.length === 5){
-                // This is the fix for the layout shift. The sub-row should not have the first empty cell if it's governed by a rowspan.
-                // My createSubRow function is designed to create 5 cells, which is correct. The browser handles the layout.
-                // The issue was likely in a previous faulty version. This version should be correct.
-            }
             insertAfterRow.insertAdjacentElement('afterend', newSubRow);
         } 
         if (e.target.matches('.remove-btn')) { 
@@ -1105,10 +1093,13 @@ function initCalculator(data) {
         }
     });
 
-    page.querySelector('#visit-date-calc').valueAsDate = new Date();
     for (const [tableId, teeth] of Object.entries(toothData)) { 
         const tableBody = page.querySelector(`.${tableId} tbody`); 
-        teeth.forEach(tooth => tableBody.appendChild(createMainRow(tooth))); 
+        teeth.forEach(tooth => {
+            const mainRow = createMainRow(tooth);
+            tableBody.appendChild(mainRow);
+            handleSelectionChange(mainRow.querySelector('.procedure-select'));
+        });
     }
     populateAdditionalTreatments();
     updateAdditionalOptions();
