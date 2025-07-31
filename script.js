@@ -519,7 +519,7 @@ function setupPageNavigation() {
 function initCalculator(data) {
     const page = document.querySelector('#Calculator-Page');
     if (!page) return;
-    const CURRENT_VERSION = "6.2-dog";
+    const CURRENT_VERSION = "6.3-dog";
     let isChartDirty = false;
 
     const toothData = {
@@ -641,7 +641,7 @@ function initCalculator(data) {
         const newRow = document.createElement('tr');
         newRow.className = 'procedure-sub-row';
         newRow.dataset.permanentId = mainRowId;
-        newRow.innerHTML = `<td></td><td class="tooth-id-cell"></td><td><input type="text" class="notes" placeholder="특이사항 입력"></td><td><select class="procedure-select"></select></td><td class="cost" data-cost="0">₩0</td><td><button class="remove-btn">-</button></td>`;
+        newRow.innerHTML = `<td class="tooth-id-cell"></td><td><input type="text" class="notes" placeholder="특이사항 입력"></td><td><select class="procedure-select"></select></td><td class="cost" data-cost="0">₩0</td><td><button class="remove-btn">-</button></td>`;
         
         const subSelect = newRow.querySelector('.procedure-select');
         const weight = parseFloat(page.querySelector('#patient-weight-calc').value) || 5;
@@ -1093,6 +1093,7 @@ function initCalculator(data) {
         }
     });
 
+    page.querySelector('#visit-date-calc').valueAsDate = new Date();
     for (const [tableId, teeth] of Object.entries(toothData)) { 
         const tableBody = page.querySelector(`.${tableId} tbody`); 
         teeth.forEach(tooth => {
