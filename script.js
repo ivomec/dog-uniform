@@ -1,13 +1,8 @@
 /*
-  [v6.6 최종 업데이트 내역]
-  - UI 개선: 추가처치 내역에 개별 비용 표시 기능 추가
-  - 기능 추가: 홈케어 용품 개별 선택 기능 및 액상 진통제 자동 계산 로직 구현
-  - UI 개선: 예상비용 및 보호자용 내역 탭에 치아 공식 이미지 추가
-  - 데이터 수정: 수술비용 탭의 치아 이미지를 최신 버전으로 교체
-  - UI 변경: 유튜브 영상을 '영상 보러가기' 링크 버튼으로 변경
-  - 데이터 수정: 액상 진통제 가격을 1ml당 8,000원으로 수정
-  - UI 개선: '모니터링' 선택 시 눈에 띄는 색상으로 강조
-  - UI 개선: 추가처치 항목 테이블 높이를 조정하여 클릭 용이성 개선
+  [v6.7 최종 업데이트 내역]
+  - UI 개선: 건강검진 및 스케일링 패키지 항목을 이모티콘과 함께 세련된 스타일로 변경
+  - UI 개선: '모니터링' 선택 시 가독성을 높이기 위해 배경색 및 글자색 강조 로직 수정
+  - 기능 수정: 전체 비용 내역 표시에 건강검진 및 스케일링 비용을 별도 항목으로 분리
 */
 document.addEventListener('DOMContentLoaded', () => {
     const hospitalData = {
@@ -64,16 +59,16 @@ document.addEventListener('DOMContentLoaded', () => {
         "headerTitle": "🩺✨ 우리 댕댕이 맞춤! 안심 건강검진 ✨🩺",
         "headerSubtitle": "💖 안전한 마취를 위한 첫걸음! 🌈 20kg 미만 아이들을 위한 플랜입니다! 💖",
         "packagesWith4Dx": [
-          { "borderColor": "#4db6ac", "title": "🍼 1세 미만 퍼피 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 7종", "⑤ 전해질검사", "⑥ 흉부엑스레이 3컷", "⑦ 혈압", "⑧ 4dx"], "originalPrice": 283800, "discountPrice": 199000 },
-          { "borderColor": "#ffd54f", "title": "💪 7세 미만 성견 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 4dx"], "originalPrice": 433800, "discountPrice": 299000 },
-          { "borderColor": "#ff8a65", "title": "👑 7세 이상 성견 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA", "⑭ 4dx"], "originalPrice": 599800, "discountPrice": 439000 },
-          { "borderColor": "#ba68c8", "title": "💎 7세 이상 성견 VIP 안심 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA", "⑭ 안과종합검진", "⑮ 4dx"], "originalPrice": 694800, "discountPrice": 489000 }
+          { "borderColor": "#4db6ac", "title": "🍼 1세 미만 퍼피 안심 플랜", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (7종)", "⚡ 전해질검사", "🩻 흉부 엑스레이 (3컷)", "🩺 혈압 측정", "🦠 4Dx 키트검사"], "originalPrice": 283800, "discountPrice": 199000 },
+          { "borderColor": "#ffd54f", "title": "💪 7세 미만 성견 안심 플랜", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "🩻 엑스레이 (5컷)", "🩺 혈압 측정", "🔥 염증수치검사 (CRP)", "❤️ 심전도 검사 (ECG)", "🚽 소변검사", "🦠 4Dx 키트검사"], "originalPrice": 433800, "discountPrice": 299000 },
+          { "borderColor": "#ff8a65", "title": "👑 7세 이상 성견 안심 플랜", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "🩻 엑스레이 (5컷)", "🩺 혈압 측정", "🔥 염증수치검사 (CRP)", "❤️ 심전도 검사 (ECG)", "🚽 소변검사", "🩺 복부 정밀초음파", "🦋 갑상선 호르몬 검사 (T4)", "콩팥 기능 검사 (SDMA)", "🦠 4Dx 키트검사"], "originalPrice": 599800, "discountPrice": 439000 },
+          { "borderColor": "#ba68c8", "title": "💎 7세 이상 성견 VIP 안심 플랜", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "🩻 엑스레이 (5컷)", "🩺 혈압 측정", "🔥 염증수치검사 (CRP)", "❤️ 심전도 검사 (ECG)", "🚽 소변검사", "🩺 복부 정밀초음파", "🦋 갑상선 호르몬 검사 (T4)", "콩팥 기능 검사 (SDMA)", "👁️ 안과 종합검진", "🦠 4Dx 키트검사"], "originalPrice": 694800, "discountPrice": 489000 }
         ],
         "packagesWithout4Dx": [
-          { "borderColor": "#4db6ac", "title": "🍼 1세 미만 퍼피 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 7종", "⑤ 전해질검사", "⑥ 흉부엑스레이 3컷", "⑦ 혈압"], "originalPrice": 244800, "discountPrice": 160000 },
-          { "borderColor": "#ffd54f", "title": "💪 7세 미만 성견 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사"], "originalPrice": 388800, "discountPrice": 260000 },
-          { "borderColor": "#ff8a65", "title": "👑 7세 이상 성견 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA"], "originalPrice": 554800, "discountPrice": 399000 },
-          { "borderColor": "#ba68c8", "title": "💎 7세 이상 성견 VIP 플랜", "items": ["① 신체검사", "② 재채혈", "③ 혈구검사", "④ 혈액화학검사 12종", "⑤ 전해질검사", "⑥ 엑스레이 5컷", "⑦ 혈압", "⑧ CRP", "⑨ 심전도", "⑩ 소변검사", "⑪ 복부초음파", "⑫ T4", "⑬ SDMA", "⑭ 안과종합검진"], "originalPrice": 649800, "discountPrice": 449000 }
+          { "borderColor": "#4db6ac", "title": "🍼 1세 미만 퍼피 플랜", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (7종)", "⚡ 전해질검사", "🩻 흉부 엑스레이 (3컷)", "🩺 혈압 측정"], "originalPrice": 244800, "discountPrice": 160000 },
+          { "borderColor": "#ffd54f", "title": "💪 7세 미만 성견 플랜", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "🩻 엑스레이 (5컷)", "🩺 혈압 측정", "🔥 염증수치검사 (CRP)", "❤️ 심전도 검사 (ECG)", "🚽 소변검사"], "originalPrice": 388800, "discountPrice": 260000 },
+          { "borderColor": "#ff8a65", "title": "👑 7세 이상 성견 플랜", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "🩻 엑스레이 (5컷)", "🩺 혈압 측정", "🔥 염증수치검사 (CRP)", "❤️ 심전도 검사 (ECG)", "🚽 소변검사", "🩺 복부 정밀초음파", "🦋 갑상선 호르몬 검사 (T4)", "콩팥 기능 검사 (SDMA)"], "originalPrice": 554800, "discountPrice": 399000 },
+          { "borderColor": "#ba68c8", "title": "💎 7세 이상 성견 VIP 플랜", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "🩻 엑스레이 (5컷)", "🩺 혈압 측정", "🔥 염증수치검사 (CRP)", "❤️ 심전도 검사 (ECG)", "🚽 소변검사", "🩺 복부 정밀초음파", "🦋 갑상선 호르몬 검사 (T4)", "콩팥 기능 검사 (SDMA)", "👁️ 안과 종합검진"], "originalPrice": 649800, "discountPrice": 449000 }
         ],
         "explanation": { 
             "title": "💡 꼭 확인해주세요! 추가 검사 안내 💡", 
@@ -90,14 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
         "headerSubtitle": "💖 안전한 마취를 위한 첫걸음! 🌈 20kg 이상 아이들을 위한 플랜입니다! 💖",
         "largeDogExplanation": "<p>우리 듬직한 댕댕이들을 위한 플랜은 왜 따로 있냐구요~? 😚<br>몸집이 아주 큰 아이들은 일반 엑스레이 테이블에 올라가기가 어려워서, 부득이하게 엑스레이 검사를 제외한 맞춤 플랜으로 구성했답니다.<br>아이의 안전을 위한 결정이니 보호자님의 너른 양해 부탁드려요! 🙏</p>",
         "packagesWith4Dx": [
-          { "borderColor": "#228B22", "title": "🌳 큰 아이 안심 맞춤설계 (7세미만)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ 4dx"], "originalPrice": 390800, "discountPrice": 294000 },
-          { "borderColor": "#FF8C00", "title": "🍂 큰 아이 안심 맞춤설계 (7세이상)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ 4dx"], "originalPrice": 390800, "discountPrice": 344000 },
-          { "borderColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ SDMA", "⑫ CPL(췌장염)", "⑬ 4dx"], "originalPrice": 495800, "discountPrice": 394000 }
+          { "borderColor": "#228B22", "title": "🌳 큰 아이 안심 맞춤설계 (7세미만)", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🩺 혈압 측정", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "💩 분변 검사", "❤️ 심장 기능 검사 (ProBNP)", "🔥 염증수치검사 (CRP)", "🦋 갑상선 호르몬 검사 (T4)", "🦠 4Dx 키트검사"], "originalPrice": 390800, "discountPrice": 294000 },
+          { "borderColor": "#FF8C00", "title": "🍂 큰 아이 안심 맞춤설계 (7세이상)", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🩺 혈압 측정", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "💩 분변 검사", "❤️ 심장 기능 검사 (ProBNP)", "🔥 염증수치검사 (CRP)", "🦋 갑상선 호르몬 검사 (T4)", "🦠 4Dx 키트검사"], "originalPrice": 390800, "discountPrice": 344000 },
+          { "borderColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🩺 혈압 측정", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "💩 분변 검사", "❤️ 심장 기능 검사 (ProBNP)", "🔥 염증수치검사 (CRP)", "🦋 갑상선 호르몬 검사 (T4)", "콩팥 기능 검사 (SDMA)", "🤢 췌장염 키트검사 (cPL)", "🦠 4Dx 키트검사"], "originalPrice": 495800, "discountPrice": 394000 }
         ],
         "packagesWithout4Dx": [
-          { "borderColor": "#228B22", "title": "🌳 큰 아이 맞춤설계 (7세미만)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp"], "originalPrice": 295800, "discountPrice": 249000 },
-          { "borderColor": "#FF8C00", "title": "🍂 큰 아이 맞춤설계 (7세이상)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4"], "originalPrice": 345800, "discountPrice": 299000 },
-          { "borderColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["① 신체검사", "② 재채혈", "③ 혈압체크", "④ 혈구검사", "⑤ 케미12종", "⑥ 전해질", "⑦ 분변리포트", "⑧ probnp", "⑨ crp", "⑩ 갑상선T4", "⑪ SDMA", "⑫ CPL(췌장염)"], "originalPrice": 450800, "discountPrice": 349000 }
+          { "borderColor": "#228B22", "title": "🌳 큰 아이 맞춤설계 (7세미만)", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🩺 혈압 측정", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "💩 분변 검사", "❤️ 심장 기능 검사 (ProBNP)", "🔥 염증수치검사 (CRP)"], "originalPrice": 295800, "discountPrice": 249000 },
+          { "borderColor": "#FF8C00", "title": "🍂 큰 아이 맞춤설계 (7세이상)", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🩺 혈압 측정", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "💩 분변 검사", "❤️ 심장 기능 검사 (ProBNP)", "🔥 염증수치검사 (CRP)", "🦋 갑상선 호르몬 검사 (T4)"], "originalPrice": 345800, "discountPrice": 299000 },
+          { "borderColor": "#B22222", "title": "🍁 큰 아이 안심 맞춤설계 (7세이상 심화)", "items": ["👩‍⚕️ 신체검사", "🩸 재채혈", "🩺 혈압 측정", "🔬 혈구검사 (CBC)", "🧪 혈액화학검사 (12종)", "⚡ 전해질검사", "💩 분변 검사", "❤️ 심장 기능 검사 (ProBNP)", "🔥 염증수치검사 (CRP)", "🦋 갑상선 호르몬 검사 (T4)", "콩팥 기능 검사 (SDMA)", "🤢 췌장염 키트검사 (cPL)"], "originalPrice": 450800, "discountPrice": 349000 }
         ],
         "explanation": { 
             "title": "💡 꼭 확인해주세요! 추가 검사 안내 💡", 
@@ -113,11 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
         "headerTitle": "🦷✨ 우리 댕댕이 반짝반짝 스케일링 ✨🦷",
         "headerSubtitle": "💖 사랑과 정성을 담아! 🌈 체중별 합리적인 혜택가로 안내합니다! 💖",
         "packages": [
-          { "borderColor": "#ff7eb9", "title": "🐶 5kg 미만 🐶", "items": ["산소처치, 수액처치", "도입 마취(프로포폴)", "호흡 마취(isoflurane)", "전체 치아 엑스레이", "스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 512000, "discountPrice": 239000 },
-          { "borderColor": "#ffc107", "title": "🐕 5kg ~ 10kg 미만 🐕", "items": ["산소처치, 수액처치", "도입 마취(프로포폴)", "호흡 마취(isoflurane)", "전체 치아 엑스레이", "스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 603000, "discountPrice": 299000 },
-          { "borderColor": "#20c997", "title": "🐕‍🦺 10kg ~ 15kg 미만 🐕‍🦺", "items": ["산소처치, 수액처치", "도입 마취(프로포폴)", "호흡 마취(isoflurane)", "전체 치아 엑스레이", "스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 704000, "discountPrice": 388000 },
-          { "borderColor": "#4dabf7", "title": "🐾 15kg ~ 20kg 미만 🐾", "items": ["산소처치, 수액처치", "도입 마취(프로포폴)", "호흡 마취(isoflurane)", "전체 치아 엑스레이", "스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 795000, "discountPrice": 438000 },
-          { "borderColor": "#845ef7", "title": "듬직한 20kg 이상", "items": ["산소처치, 수액처치", "도입 마취(프로포폴)", "호흡 마취(isoflurane)", "전체 치아 엑스레이", "스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 936000, "discountPrice": 488000 }
+          { "borderColor": "#ff7eb9", "title": "🐶 5kg 미만 🐶", "items": ["💧 술 전 산소 처치", "💧 술 전 수액 처치", "💉 도입 마취(프로포폴)", "😴 호흡 마취 Isoflurane (마무리까지)", "📸 전체 치과 X-ray (10장 이상 꼼꼼 촬영!)", "🧼 스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 512000, "discountPrice": 239000 },
+          { "borderColor": "#ffc107", "title": "🐕 5kg ~ 10kg 미만 🐕", "items": ["💧 술 전 산소 처치", "💧 술 전 수액 처치", "💉 도입 마취(프로포폴)", "😴 호흡 마취 Isoflurane (마무리까지)", "📸 전체 치과 X-ray (10장 이상 꼼꼼 촬영!)", "🧼 스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 603000, "discountPrice": 299000 },
+          { "borderColor": "#20c997", "title": "🐕‍🦺 10kg ~ 15kg 미만 🐕‍🦺", "items": ["💧 술 전 산소 처치", "💧 술 전 수액 처치", "💉 도입 마취(프로포폴)", "😴 호흡 마취 Isoflurane (마무리까지)", "📸 전체 치과 X-ray (10장 이상 꼼꼼 촬영!)", "🧼 스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 704000, "discountPrice": 388000 },
+          { "borderColor": "#4dabf7", "title": "🐾 15kg ~ 20kg 미만 🐾", "items": ["💧 술 전 산소 처치", "💧 술 전 수액 처치", "💉 도입 마취(프로포폴)", "😴 호흡 마취 Isoflurane (마무리까지)", "📸 전체 치과 X-ray (10장 이상 꼼꼼 촬영!)", "🧼 스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 795000, "discountPrice": 438000 },
+          { "borderColor": "#845ef7", "title": "듬직한 20kg 이상", "items": ["💧 술 전 산소 처치", "💧 술 전 수액 처치", "💉 도입 마취(프로포폴)", "😴 호흡 마취 Isoflurane (마무리까지)", "📸 전체 치과 X-ray (10장 이상 꼼꼼 촬영!)", "🧼 스케일링", "💎 폴리싱 – Airflow 시술 (반짝반짝 광택 마무리!)"], "originalPrice": 936000, "discountPrice": 488000 }
         ],
         "explanation": { "title": "💡 필독! 혜택 적용 비용 안내 💡", "content": [ "저희 금호동물병원에서는 아이의 <strong>안전을 💖최우선💖</strong>으로 생각해요. 그래서 최근 <strong>✅ 저희 병원에서 직접 마취 전 혈액검사</strong>를 진행해서, 아이의 건강 상태를 저희 의료진이 완벽하게 파악하고 있는 경우! 감사의 마음을 담아 <strong>👑혜택가👑</strong>를 적용해 드리고 있답니다.", "다른 병원에서 검사를 받으셨거나 사정상 검사를 못 하셨어도 괜찮아요! 물론 안전한 치과 치료가 가능합니다. 다만, 이 경우 <strong>10만원이 추가</strong>되는 점, 보호자님의 너른 양해를 부탁드려요. 🙏", "<strong>🚨 잠깐!</strong> 안내된 비용은 스케일링과 기본 처치 비용이에요. 아이의 구강 상태에 따라 발치, 신경치료, 약 처방 등 추가 치료가 필요할 수 있어요. 이 경우, 꼭! <strong>보호자님과 충분히 상의 후 진행</strong>하니 걱정 마세요! 😉" ] }
       },
@@ -410,7 +405,7 @@ function populateContent(data) {
         document.getElementById('scaling-packages').innerHTML = data.scaling.packages.map(pkg => `
             <div class="package-card" style="border-top-color:${pkg.borderColor}">
                 <h3 style="color:${pkg.borderColor}">${pkg.title}</h3>
-                <ul>${(pkg.items || []).map(item => `<li>${item}</li>`).join('')}</ul>
+                <ul style="list-style: none; padding-left: 0;">${(pkg.items || []).map(item => `<li style="margin-bottom: 10px; font-size: 1.1em;">${item}</li>`).join('')}</ul>
                 <div class="price-wrapper">
                     <span class="original-price">${formatPrice(pkg.originalPrice)}</span>
                     <span class="discount-price pulse">👑 ${pkg.discountPrice.toLocaleString('ko-KR')}원</span>
@@ -478,7 +473,7 @@ function renderHealthCheckPackages(size, packages) {
     healthPackagesContainer.innerHTML = packages.map(pkg => `
         <div class="package-card" style="border-top-color:${pkg.borderColor}">
             <h3 style="color:${pkg.borderColor}">${pkg.title}</h3>
-            <ul>${(pkg.items || []).map(item => `<li>${item}</li>`).join('')}</ul>
+            <ul style="list-style: none; padding-left: 0;">${(pkg.items || []).map(item => `<li style="margin-bottom: 10px; font-size: 1.1em;">${item}</li>`).join('')}</ul>
             <div class="price-wrapper">
                 <span class="original-price">${formatPrice(pkg.originalPrice)}</span>
                 <span class="discount-price heartbeat">❤️ ${pkg.discountPrice.toLocaleString('ko-KR')}원</span>
@@ -520,7 +515,7 @@ function setupPageNavigation() {
 function initCalculator(data) {
     const page = document.querySelector('#Calculator-Page');
     if (!page) return;
-    const CURRENT_VERSION = "6.6-dog";
+    const CURRENT_VERSION = "6.7-dog";
     let isChartDirty = false;
 
     const toothData = {
@@ -719,11 +714,13 @@ function initCalculator(data) {
             selectedOption = target.options[target.selectedIndex];
 
             // '모니터링' 선택 시 글자색 변경 로직
-            target.style.color = '';
-            target.style.fontWeight = '';
+            Array.from(target.options).forEach(opt => {
+                opt.style.color = '';
+                opt.style.fontWeight = '';
+            });
             if (selectedOption && selectedOption.dataset.category === '모니터링') {
-                target.style.color = 'red';
-                target.style.fontWeight = 'bold';
+                selectedOption.style.color = 'red';
+                selectedOption.style.fontWeight = 'bold';
             }
         }
 
@@ -1294,7 +1291,16 @@ function copyCalculatorDataTo(targetId) {
     sourceElements.forEach((sourceEl, index) => {
         const clonedEl = clonedElements[index];
         if (clonedEl) {
-            if (sourceEl.tagName === 'SELECT') clonedEl.selectedIndex = sourceEl.selectedIndex;
+            if (sourceEl.tagName === 'SELECT') {
+                clonedEl.selectedIndex = sourceEl.selectedIndex;
+                // 스타일 복사
+                const sourceOption = sourceEl.options[sourceEl.selectedIndex];
+                const clonedOption = clonedEl.options[clonedEl.selectedIndex];
+                if (sourceOption && clonedOption && sourceOption.style.color) {
+                    clonedOption.style.color = sourceOption.style.color;
+                    clonedOption.style.fontWeight = sourceOption.style.fontWeight;
+                }
+            }
             else if (sourceEl.type === 'checkbox' || sourceEl.type === 'radio') clonedEl.checked = sourceEl.checked;
             else clonedEl.value = sourceEl.value;
         }
