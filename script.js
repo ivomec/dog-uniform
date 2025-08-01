@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ]},
               { "borderColor": "#9575cd", "title": "🏡 홈케어 처방", "prices": [
                   { "label": "💊 내복약 (1일/2회/1일분)", "value": "4,400 ~ 5,500원" }, 
-                  { "label": "💧 액상 진통제 (NSAID)", "value": "별도 문의" }, 
+                  { "label": "💧 액상 진통제 (1ml 당)", "value": "별도 문의" }, 
                   { "label": "🧴 구강항생연고 (페리덱스)", "value": "15,000원" },
                   { "label": "🛡️ 구강점막코팅 (뮤코딘)", "value": "33,000원" },
                   { "label": "🌿 치주질환연고 (파로돈겔)", "value": "25,000원" },
