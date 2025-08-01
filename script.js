@@ -810,7 +810,7 @@ function initCalculator(data) {
          const isSmall = weight < 10;
          const isLarge = weight >= 10;
 
-         page.querySelectorAll('.additional-table select').forEach(control => {
+         page.querySelectorAll('.additional-treatments-container select').forEach(control => {
             const itemId = control.dataset.itemId;
             const savedValue = control.value;
             control.innerHTML = '';
