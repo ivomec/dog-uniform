@@ -724,6 +724,11 @@ function initCalculator(data) {
             const [text, priceStr] = target.value.split('|');
             cost = parseInt(priceStr, 10) || 0;
             row.classList.toggle('selected-row', target.value !== '선택안함|0');
+            const costCell = row.querySelector('.cost');
+            if (costCell) {
+                costCell.textContent = '₩' + cost.toLocaleString('ko-KR');
+                costCell.dataset.cost = cost;
+            }
         } else { 
             const costCell = row.querySelector('.cost');
             if(costCell) {
@@ -793,11 +798,11 @@ function initCalculator(data) {
         const renderCategory = (tbody, categoryData) => {
              const headerRow = tbody.insertRow();
              headerRow.className = 'category-header';
-             headerRow.innerHTML = `<td colspan="2"><h3>${categoryData.category}</h3></td>`;
+             headerRow.innerHTML = `<td colspan="3"><h3>${categoryData.category}</h3></td>`;
              categoryData.items.forEach(item => {
                 const row = tbody.insertRow();
                 row.className = 'additional-row';
-                row.innerHTML = `<td>${item.name}</td><td><select data-item-id="${item.id}"></select></td><td class="cost" data-cost="0" style="display:none;">₩0</td>`;
+                row.innerHTML = `<td>${item.name}</td><td><select data-item-id="${item.id}"></select></td><td class="cost" data-cost="0">₩0</td>`;
             });
         };
         
@@ -972,9 +977,11 @@ function initCalculator(data) {
         page.querySelectorAll('.main-container .cost').forEach(cell => dentalSurgeryCost += parseInt(cell.dataset.cost, 10) || 0);
         
         let additionalTreatmentCost = 0;
-        page.querySelectorAll('.additional-treatments-container select').forEach(select => {
-            const [text, priceStr] = select.value.split('|');
-            additionalTreatmentCost += parseInt(priceStr, 10) || 0;
+        page.querySelectorAll('.additional-treatments-container .cost').forEach(cell => {
+            const row = cell.closest('tr');
+            if(row && row.classList.contains('selected-row')) {
+                additionalTreatmentCost += parseInt(cell.dataset.cost, 10) || 0;
+            }
         });
 
         page.querySelector('.dental-surgery-cost-display').textContent = '₩' + dentalSurgeryCost.toLocaleString('ko-KR');
