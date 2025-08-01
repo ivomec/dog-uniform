@@ -692,9 +692,7 @@ function initCalculator(data) {
                     case '신경/보존 치료': idCell.style.backgroundColor = '#b2dfdb'; break;
                     case '기타': idCell.style.backgroundColor = '#fff9c4'; break;
                     case '모니터링': 
-                        idCell.style.backgroundColor = '#ff4757'; // 눈에 띄는 붉은 계열
-                        idCell.style.color = 'white';
-                        idCell.style.fontWeight = 'bold';
+                        idCell.style.backgroundColor = '#faff00'; // 형광색으로 변경
                         break;
                 }
             }
@@ -717,9 +715,16 @@ function initCalculator(data) {
 
         if (target.matches('select')) {
             const value = target.value;
-            // '선택안함|0' 같은 형태와 '22000' 같은 숫자 형태 모두 처리
             cost = parseInt(value.split('|').pop(), 10) || 0;
             selectedOption = target.options[target.selectedIndex];
+
+            // '모니터링' 선택 시 글자색 변경 로직
+            target.style.color = '';
+            target.style.fontWeight = '';
+            if (selectedOption && selectedOption.dataset.category === '모니터링') {
+                target.style.color = 'red';
+                target.style.fontWeight = 'bold';
+            }
         }
 
         if (row.classList.contains('additional-row')) {
@@ -992,18 +997,66 @@ function initCalculator(data) {
         let dentalSurgeryCost = 0;
         page.querySelectorAll('.main-container .cost').forEach(cell => dentalSurgeryCost += parseInt(cell.dataset.cost, 10) || 0);
         
+        let healthCheckCost = 0;
+        let scalingCost = 0;
         let additionalTreatmentCost = 0;
+
         page.querySelectorAll('.additional-treatments-container .cost').forEach(cell => {
             const row = cell.closest('tr');
-            if(row && row.classList.contains('selected-row')) {
-                additionalTreatmentCost += parseInt(cell.dataset.cost, 10) || 0;
+            if (row && row.classList.contains('selected-row')) {
+                const cost = parseInt(cell.dataset.cost, 10) || 0;
+                const select = row.querySelector('select[data-item-id]');
+                const itemId = select ? select.dataset.itemId : null;
+
+                if (itemId === 'health-check') {
+                    healthCheckCost += cost;
+                } else if (itemId === 'scaling-package') {
+                    scalingCost += cost;
+                } else {
+                    additionalTreatmentCost += cost;
+                }
             }
         });
 
+        const summaryTableBody = page.querySelector('.cost-summary-table tbody');
+        const additionalCostRow = summaryTableBody.querySelector('tr:has(.additional-treatment-cost-display)');
+
+        // 건강검진 비용 행 처리
+        let healthCheckRow = summaryTableBody.querySelector('#health-check-cost-row');
+        if (healthCheckCost > 0) {
+            if (!healthCheckRow) {
+                healthCheckRow = document.createElement('tr');
+                healthCheckRow.id = 'health-check-cost-row';
+                healthCheckRow.innerHTML = `<td>🩺 건강검진 비용</td><td class="health-check-cost-display"></td>`;
+                summaryTableBody.insertBefore(healthCheckRow, additionalCostRow);
+            }
+            healthCheckRow.style.display = '';
+            healthCheckRow.querySelector('.health-check-cost-display').textContent = '₩' + healthCheckCost.toLocaleString('ko-KR');
+        } else if (healthCheckRow) {
+            healthCheckRow.style.display = 'none';
+        }
+
+        // 스케일링 비용 행 처리
+        let scalingRow = summaryTableBody.querySelector('#scaling-cost-row');
+        if (scalingCost > 0) {
+            if (!scalingRow) {
+                scalingRow = document.createElement('tr');
+                scalingRow.id = 'scaling-cost-row';
+                scalingRow.innerHTML = `<td>🦷 스케일링 비용</td><td class="scaling-cost-display"></td>`;
+                summaryTableBody.insertBefore(scalingRow, additionalCostRow);
+            }
+            scalingRow.style.display = '';
+            scalingRow.querySelector('.scaling-cost-display').textContent = '₩' + scalingCost.toLocaleString('ko-KR');
+        } else if (scalingRow) {
+            scalingRow.style.display = 'none';
+        }
+
         page.querySelector('.dental-surgery-cost-display').textContent = '₩' + dentalSurgeryCost.toLocaleString('ko-KR');
         page.querySelector('.additional-treatment-cost-display').textContent = '₩' + additionalTreatmentCost.toLocaleString('ko-KR');
-        page.querySelector('.total-cost-display').textContent = '₩' + (dentalSurgeryCost + additionalTreatmentCost).toLocaleString('ko-KR');
         
+        const totalCost = dentalSurgeryCost + healthCheckCost + scalingCost + additionalTreatmentCost;
+        page.querySelector('.total-cost-display').textContent = '₩' + totalCost.toLocaleString('ko-KR');
+
         updateTreatmentSummary();
     }
     
