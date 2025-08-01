@@ -127,6 +127,8 @@
         .info-page .action-button:hover { transform: scale(1.05); }
         .info-page .kakao-btn { background-color: #FEE500; color: #3C1E1E; }
         .info-page .tel-btn { background-color: #4CAF50; }
+        .youtube-btn { background-color: #FF0000; margin-bottom: 25px; }
+
 
         .important-notice { background: #fff5f5; border-left: 8px solid #fa5252; padding: 25px; margin-bottom: 30px; border-radius:15px; }
         .important-notice h2 { color: #c92a2a; }
@@ -210,24 +212,6 @@
             color: #d84315;
             font-weight: 700;
         }
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            margin-bottom: 25px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
         
         /* --- 계산기 페이지 스타일 --- */
         .calculator-common .capture-area { background-color: #fff; padding: 20px; border-radius: 8px; border: 1px solid #dee2e6;}
@@ -241,7 +225,8 @@
         .calculator-common table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; } 
         .calculator-common td { border: 1px solid #ccc; padding: 2px; text-align: center; font-size: 0.85em; vertical-align: middle; transition: background-color 0.2s; }
         .calculator-common th { border: 1px solid #ccc; padding: 6px; text-align: center; font-size: 0.85em; background-color: #FFC107; color: #333; vertical-align: middle; }
-        .calculator-common .notes, .calculator-common .procedure-select, .calculator-common .additional-tbody select { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 100%; box-sizing: border-box; height: 30px; padding: 0 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 1em; background-color: #fff; line-height: 28px; text-align: center; text-align-last: center; }
+        .calculator-common .notes, .calculator-common .procedure-select { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 100%; box-sizing: border-box; height: 30px; padding: 0 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 1em; background-color: #fff; line-height: 28px; text-align: center; text-align-last: center; }
+        .calculator-common .additional-treatments-column select { height: 34px; padding: 4px 8px; }
         .calculator-common td:has(> select) { position: relative; }
         .calculator-common td:has(> select)::after { content: '▼'; font-size: 12px; color: #555; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; }
         .calculator-common .cost { text-align: right; font-weight: bold; min-width: 80px; padding-right: 5px; }
@@ -297,12 +282,12 @@
     <nav class="dashboard-nav">
         <a href="#" class="nav-tab" id="tab-main" data-target="content-main">💖 병원소개</a>
         <a href="#" class="nav-tab" id="tab-procedure" data-target="content-procedure">🏥 수술 과정</a>
-        <a href="#" class="nav-tab" id="tab-healthcheck-small" data-target="content-healthcheck-small">🩺 건강검진(&lt;20kg)</a>
+        <a href="#" class="nav-tab" id="tab-healthcheck-small" data-target="content-healthcheck-small">🩺 건강검진(<20kg)</a>
         <a href="#" class="nav-tab" id="tab-healthcheck-large" data-target="content-healthcheck-large">🩺 건강검진(20kg≥)</a>
         <a href="#" class="nav-tab" id="tab-scaling" data-target="content-scaling">🦷 스케일링</a>
-        <a href="#" class="nav-tab" id="tab-extraction-small" data-target="content-extraction-small">😿 수술비용(&lt;10kg)</a>
+        <a href="#" class="nav-tab" id="tab-extraction-small" data-target="content-extraction-small">😿 수술비용(<10kg)</a>
         <a href="#" class="nav-tab" id="tab-extraction-large" data-target="content-extraction-large">😿 수술비용(10kg≥)</a>
-        <a href="#" class="nav-tab" id="tab-addons-small" data-target="content-addons-small">💊 추가처치(&lt;10kg)</a>
+        <a href="#" class="nav-tab" id="tab-addons-small" data-target="content-addons-small">💊 추가처치(<10kg)</a>
         <a href="#" class="nav-tab" id="tab-addons-large" data-target="content-addons-large">💊 추가처치(10kg≥)</a>
         <a href="#" class="nav-tab" id="tab-nerve" data-target="content-nerve">❤️‍🩹 신경 및 보존 치료</a>
         <a href="#" class="nav-tab" id="tab-calculator" data-target="content-calculator">🧮 치료비 계산기</a>
@@ -341,9 +326,7 @@
                     <p>보호자님께서 안심하실 수 있도록, 모든 과정을 투명하게 안내해 드립니다 ❤️</p>
                 </header>
                 <main>
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/_mk6qOF7OEs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
+                    <a href="https://www.youtube.com/watch?v=_mk6qOF7OEs" target="_blank" class="action-button youtube-btn">🎥 영상 보러가기</a>
                     <div class="procedure-timeline">
                         <!-- JS로 내용 채워짐 -->
                     </div>
@@ -357,9 +340,7 @@
                     <h1 id="healthcheck-header-title-small"></h1>
                     <p id="healthcheck-header-subtitle-small"></p>
                  </header>
-                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/-EjT1oZrvJA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
+                 <a href="https://www.youtube.com/watch?v=-EjT1oZrvJA" target="_blank" class="action-button youtube-btn">🎥 영상 보러가기</a>
                  <div class="healthcheck-options">
                     <button class="option-btn active" id="btn-healthcheck-with-4dx-small">✅ 사상충 검사 포함</button>
                     <button class="option-btn" id="btn-healthcheck-without-4dx-small">❌ 사상충 검사 제외</button>
@@ -376,9 +357,7 @@
                     <h1 id="healthcheck-header-title-large"></h1>
                     <p id="healthcheck-header-subtitle-large"></p>
                  </header>
-                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/-EjT1oZrvJA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                 </div>
+                 <a href="https://www.youtube.com/watch?v=-EjT1oZrvJA" target="_blank" class="action-button youtube-btn">🎥 영상 보러가기</a>
                  <div class="healthcheck-options">
                     <button class="option-btn active" id="btn-healthcheck-with-4dx-large">✅ 사상충 검사 포함</button>
                     <button class="option-btn" id="btn-healthcheck-without-4dx-large">❌ 사상충 검사 제외</button>
@@ -413,7 +392,7 @@
                     <h1 id="extraction-header-title-small"></h1>
                     <p id="extraction-header-subtitle-small"></p>
                 </header>
-                <img src="https://raw.githubusercontent.com/ivomec/image/main/%EC%B9%98%EC%8B%9D.jpg?raw=true" alt="강아지 치아 모식도" style="width: 100%; max-width: 800px; margin: 0 auto 25px; display: block; border-radius: 15px;">
+                <img src="https://raw.githubusercontent.com/ivomec/image/main/%EC%B9%98%EC%8B%9D1.jpg?raw=true" alt="강아지 치아 모식도" style="width: 100%; max-width: 800px; margin: 0 auto 25px; display: block; border-radius: 15px;">
                 <div class="cost-grid" id="extraction-costs-small"></div>
                 <div class="explanation-box">
                     <h2 id="extraction-explanation-title-small"></h2>
@@ -428,7 +407,7 @@
                     <h1 id="extraction-header-title-large"></h1>
                     <p id="extraction-header-subtitle-large"></p>
                 </header>
-                 <img src="https://raw.githubusercontent.com/ivomec/image/main/%EC%B9%98%EC%8B%9D.jpg?raw=true" alt="강아지 치아 모식도" style="width: 100%; max-width: 800px; margin: 0 auto 25px; display: block; border-radius: 15px;">
+                 <img src="https://raw.githubusercontent.com/ivomec/image/main/%EC%B9%98%EC%8B%9D1.jpg?raw=true" alt="강아지 치아 모식도" style="width: 100%; max-width: 800px; margin: 0 auto 25px; display: block; border-radius: 15px;">
                 <div class="cost-grid" id="extraction-costs-large"></div>
                 <div class="explanation-box">
                     <h2 id="extraction-explanation-title-large"></h2>
@@ -525,15 +504,15 @@
                         <div class="additional-treatments-container">
                             <div class="additional-treatments-column">
                                 <table style="table-layout: auto;">
-                                    <colgroup><col style="width: 45%;"><col style="width: 55%;"></colgroup>
-                                    <thead><tr><th>항목</th><th>선택</th></tr></thead>
+                                    <colgroup><col style="width: 35%;"><col style="width: 45%;"><col style="width: 20%;"></colgroup>
+                                    <thead><tr><th>항목</th><th>선택</th><th>비용</th></tr></thead>
                                     <tbody class="additional-tbody-1"></tbody>
                                 </table>
                             </div>
                             <div class="additional-treatments-column">
                                 <table style="table-layout: auto;">
-                                    <colgroup><col style="width: 45%;"><col style="width: 55%;"></colgroup>
-                                    <thead><tr><th>항목</th><th>선택</th></tr></thead>
+                                    <colgroup><col style="width: 35%;"><col style="width: 45%;"><col style="width: 20%;"></colgroup>
+                                    <thead><tr><th>항목</th><th>선택</th><th>비용</th></tr></thead>
                                     <tbody class="additional-tbody-2"></tbody>
                                 </table>
                             </div>
@@ -589,4 +568,4 @@
     <script src="script.js" defer></script>
 
 </body>
-</html>
+</html>```
