@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
           { "step": "3", "title": "안전 마취 및 치과 검사", "content": "<strong>😴 안전한 호흡마취</strong><br>아이의 상태에 맞는 마취 프로토콜을 적용하여 안전하게 마취를 유도하고, 가장 안정적인 호흡마취로 전환합니다. 수술 내내 최신 모니터링 장비로 모든 활력 징후를 1:1로 집중 감시합니다.<br><br><strong>📸 전체 치과 방사선 검사</strong><br>눈으로 보이지 않는 치아 뿌리, 잇몸뼈(치조골)의 숨겨진 질병까지 정확히 진단하기 위해 모든 치아에 대한 방사선 촬영을 진행합니다." },
           { "step": "4", "title": "정밀 구강 검사 및 치료", "content": "<strong>🔎 치주 탐침 검사 (프로빙)</strong><br>방사선 사진을 바탕으로 치아 하나하나의 치주낭 깊이, 출혈, 흔들림 등을 정밀하게 검사하여 치료 계획을 최종 확정합니다.<br><br><strong>🦷 맞춤형 치과 치료</strong><br>스케일링과 폴리싱을 기본으로, 검사 결과에 따라 발치, 신경치료, 잇몸치료 등 보호자님과 상의된 맞춤 치료를 진행합니다." },
           { "step": "5", "title": "회복 및 퇴원", "content": "<strong>💖 세심한 회복 케어</strong><br>모든 치료가 끝나면, 전담 스텝이 아이가 완전히 의식을 회복하고 안정될 때까지 곁에서 세심하게 돌봅니다.<br><br><strong>🏡 귀가 및 홈케어 안내</strong><br>아이가 충분히 회복되면 보호자님께 연락을 드립니다. 퇴원 시 수술 후 주의사항과 홈케어 방법을 자세히 안내해 드립니다." },
-          { "step": "6", "title": "수술 후 검진 (리체크)", "content": "<strong>👩‍⚕️ 예후 확인</strong><br>발치나 잇몸 수술을 한 경우, 보통 1~2주 뒤에 내원하여 수술 부위가 잘 아물고 있는지 확인하는 검진(리체크)을 받게 됩니다. 건강한 구강 상태를 오래 유지하기 위한 마지막 단계입니다." }
+          { "step": "6", "title": "수술 후 검진 (리체크)", "content": "<strong>👩‍⚕️ 예후 확인</strong><br>발치나 잇몸 수술을 한 경우, 보통 1~2주 뒤에 내원하여 수술 부위가 잘 아물고 있는지 확인하는 검진(리체크)를 받게 됩니다. 건강한 구강 상태를 오래 유지하기 위한 마지막 단계입니다." }
       ],
       "healthCheck": {
         "headerTitle": "🩺✨ 우리 댕댕이 맞춤! 안심 건강검진 ✨🩺",
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   { "label": "수액첨가제(헤파멜즈)", "value": "15,000원" }
                 ]}
           ],
-          "explanation": { "title": "💡 추가 처치는 왜 필요할까요? 🤔", "content": ["우리 댕댕이들은 <strong>\"나 아파요😿\" 라고 말을 못하고 꾹~ 참는 습성</strong>이 있어요. 그래서 미리 통증을 관리해주는 건 아이의 고통을 덜어주는 <strong>가장 큰 사랑이자 배려</strong>랍니다.💖", "또, 항생제나 레이저, 소독 용품들은 수술 후 생길 수 있는 <strong>나쁜 균들을 막아주고 🦠 회복 속도를 높여서⚡️</strong> 아이가 빨리 우다다! 할 수 있게 도와줘요!", "저희 병원은 아이의 상태를 꼼꼼히 살펴, <strong>정말 꼭! 필요한 처치만 골라서 보호자님과 상의</strong>드릴 것을 약속해요.🤙"] }
+          "explanation": { "title": "💡 추가 처치는 왜 필요할까요? 🤔", "content": ["우리 댕댕이들은 <strong>\"나 아요😿\" 라고 말을 못하고 꾹~ 참는 습성</strong>이 있어요. 그래서 미리 통증을 관리해주는 건 아이의 고통을 덜어주는 <strong>가장 큰 사랑이자 배려</strong>랍니다.💖", "또, 항생제나 레이저, 소독 용품들은 수술 후 생길 수 있는 <strong>나쁜 균들을 막아주고 🦠 회복 속도를 높여서⚡️</strong> 아이가 빨리 우다다! 할 수 있게 도와줘요!", "저희 병원은 아이의 상태를 꼼꼼히 살펴, <strong>정말 꼭! 필요한 처치만 골라서 보호자님과 상의</strong>드릴 것을 약속해요.🤙"] }
         },
         "costsLarge": {
           "headerTitle": "💊 우리 댕댕이 회복을 돕는 케어 비용 💊",
@@ -780,11 +780,11 @@ function initCalculator(data) {
         tbody2.innerHTML = '';
 
         const treatmentsByCategory = [
-            { category: '🩺 기본 비용', items: [ { id: 'health-check', name: '건강검진' }, { id: 'scaling-package', name: '스케일링' } ]},
-            { category: '💉 마취/통증 관리', items: [ { id: 'anesthesia-pre', name: '도입마취 변경' }, { id: 'anesthesia-ext', name: '마취 시간 연장' }, { id: 'pain-control', name: '통증 관리' } ]},
-            { category: '🚀 회복 촉진', items: [ { id: 'recovery-promo', name: '회복 촉진 주사' }, { id: 'laser-therapy', name: '레이저 치료' }, { id: 'fluoride', name: '불소 도포' }]},
-            { category: '🏡 홈케어', items: [ { id: 'medication', name: '내복약' }, { id: 'home-care-meds', name: '연고/용품' }, { id: 'neck-collar', name: '넥카라' } ]},
-            { category: '🔬 기타', items: [ { id: 'misc-op', name: '기타 수술/검사' } ]}
+            { category: '🩺 기본/수액', items: [ { id: 'health-check', name: '건강검진' }, { id: 'scaling-package', name: '스케일링' }, { id: 'iv_additives', name: '수액첨가제' } ]},
+            { category: '💉 마취', items: [ { id: 'anesthesia_pre', name: '도입마취 변경' }, { id: 'anesthesia_ext', name: '마취 시간 연장' }, { id: 'local_anesthesia', name: '국소마취' } ]},
+            { category: '🩹 통증 관리', items: [ { id: 'pain_opioid_iv', name: '마약성 진통 혈관주사' }, { id: 'pain_24hr_injection', name: '24시간 지속 진통 주사' }, { id: 'pain_cri', name: '무통 주사' }, { id: 'pain_patch', name: '마약성 진통패치' } ]},
+            { category: '🚀 회복 촉진', items: [ { id: 'recovery_injection', name: '항생/소염 주사' }, { id: 'laser_therapy', name: '레이저 치료' }, { id: 'fluoride', name: '불소 도포' }]},
+            { category: '🏡 홈케어', items: [ { id: 'medication', name: '내복약' }, { id: 'home_care_products', name: '연고/용품' }, { id: 'neck_collar', name: '넥카라' } ]}
         ];
         
         const col1Categories = [treatmentsByCategory[0], treatmentsByCategory[1], treatmentsByCategory[2]];
@@ -807,9 +807,7 @@ function initCalculator(data) {
     
     function updateAdditionalOptions() {
          const weight = parseFloat(page.querySelector('#patient-weight-calc').value) || 0;
-         const isSmall = weight < 10;
-         const isLarge = weight >= 10;
-
+         
          page.querySelectorAll('.additional-treatments-container select').forEach(control => {
             const itemId = control.dataset.itemId;
             const savedValue = control.value;
@@ -818,8 +816,8 @@ function initCalculator(data) {
             
             const add = (label, value) => control.add(new Option(label, `${label}|${value}`));
 
-            if (itemId === 'health-check') {
-                if(weight < 20 && weight > 0) {
+            if (itemId === 'health-check' && weight > 0) {
+                if (weight < 20) {
                      add('(<20kg) 1세미만 퍼피 안심(4dx O)', 199000);
                      add('(<20kg) 7세미만 성견 안심(4dx O)', 299000);
                      add('(<20kg) 7세이상 성견 안심(4dx O)', 439000);
@@ -828,7 +826,7 @@ function initCalculator(data) {
                      add('(<20kg) 7세미만 성견(4dx X)', 260000);
                      add('(<20kg) 7세이상 성견(4dx X)', 399000);
                      add('(<20kg) 7세이상 VIP(4dx X)', 449000);
-                } else if (weight >= 20) {
+                } else {
                      add('(20kg≥) 큰아이 7세미만(4dx O)', 294000);
                      add('(20kg≥) 큰아이 7세이상(4dx O)', 344000);
                      add('(20kg≥) 큰아이 7세이상 심화(4dx O)', 394000);
@@ -837,70 +835,128 @@ function initCalculator(data) {
                      add('(20kg≥) 큰아이 7세이상 심화(4dx X)', 349000);
                 }
             }
-            if (itemId === 'scaling-package') {
-                const prices = [ {w:5,p:239000}, {w:10,p:299000}, {w:15,p:388000}, {w:20,p:438000}, {w:999,p:488000} ];
-                const price = prices.find(item => weight < item.w)?.p;
-                if(price) {
-                    add(`스케일링 패키지 (본원검사O)`, price);
-                    add(`스케일링 패키지 (타병원검사/미검사)`, price + 100000);
+            if (itemId === 'scaling-package' && weight > 0) {
+                let price;
+                if (weight < 5) price = 239000;
+                else if (weight < 10) price = 299000;
+                else if (weight < 15) price = 388000;
+                else if (weight < 20) price = 438000;
+                else price = 488000;
+                add(`스케일링 패키지 (본원검사O)`, price);
+                add(`스케일링 패키지 (타병원검사/미검사)`, price + 100000);
+            }
+            if(itemId === 'iv_additives'){
+                add('수액첨가제(간기능 회복제)', 11000);
+            }
+            if (itemId === 'anesthesia_pre' && weight > 0) {
+                 if (weight < 5) add('도입마취 변경(알팍산)', 33000);
+                 else if (weight < 10) add('도입마취 변경(알팍산)', 44000);
+                 else if (weight < 15) add('도입마취 변경(알팍산)', 55000);
+                 else if (weight < 20) add('도입마취 변경(알팍산)', 66000);
+                 else add('도입마취 변경(알팍산)', 77000);
+            }
+            if (itemId === 'anesthesia_ext' && weight > 0) {
+                let pricePer30min;
+                if (weight < 5) pricePer30min = 45000;
+                else if (weight < 10) pricePer30min = 55000;
+                else if (weight < 15) pricePer30min = 66000;
+                else if (weight < 20) pricePer30min = 77000;
+                else pricePer30min = 88000;
+                for(let i = 1; i <= 8; i++){ // 30분 ~ 4시간(240분)
+                    add(`마취시간 연장 (${i*30}분)`, pricePer30min * i);
                 }
             }
-             if (itemId === 'anesthesia-pre') {
-                 if (isSmall) add('도입마취 변경(알팍산, <10kg)', weight < 5 ? 33000:44000);
-                 if (isLarge) add('도입마취 변경(알팍산, 10kg≤)', weight < 15 ? 55000:66000);
-             }
-             if (itemId === 'anesthesia-ext') {
-                 let price = 0;
-                 if(weight < 5) price = 45000;
-                 else if(weight < 10) price = 50000;
-                 else if(weight >= 10) price = 66000;
-                 if(price > 0) add('마취시간 연장 (30분)', price);
-             }
-             if (itemId === 'pain-control') {
-                 if(isSmall) add('국소마취(<10kg,1~4site)', weight < 5 ? 10000:15000);
-                 if(isLarge) add('국소마취(10kg≤,1~4site)', weight < 15 ? 12000:13000);
-                 if(isSmall) add('마약성 진통 혈관주사(<10kg)', weight < 5 ? 20000:25000);
-                 if(isLarge) add('마약성 진통 혈관주사(10kg≤)', weight < 15 ? 26000:27000);
-                 if(isSmall) add('무통주사(<10kg)', weight < 5 ? 40000:45000);
-                 if(isLarge) add('무통주사(10kg≤)', weight < 15 ? 50000:55000);
-                 add('마약성 진통패치(노스판)', 40000);
-             }
-             if (itemId === 'recovery-promo') {
-                 if(isSmall) add('항생/소염주사(<10kg)', 11000);
-                 if(isLarge) add('항생/소염주사(10kg≤)', 13000);
-                 if(isSmall) add('1주 지속 항생/소염주사(<10kg)', weight < 5 ? 15000:18000);
-                 if(isLarge) add('1주 지속 항생/소염주사(10kg≤)', weight < 15 ? 20000:25000);
-             }
-            if (itemId === 'laser-therapy') {
-                 if(isSmall) add('레이저치료(<10kg,국소/전체)', weight < 5 ? 20000:25000);
-                 if(isLarge) add('레이저치료(10kg≤,국소/전체)', weight < 15 ? 26000:29000);
+            if(itemId === 'local_anesthesia' && weight > 0) {
+                if (weight < 5) {
+                    add('국소마취 (1 site)', 10000); add('국소마취 (2 site)', 15000);
+                    add('국소마취 (3 site)', 18000); add('국소마취 (4 site)', 20000);
+                } else if (weight < 10) {
+                    add('국소마취 (1 site)', 12000); add('국소마취 (2 site)', 17000);
+                    add('국소마취 (3 site)', 20000); add('국소마취 (4 site)', 22000);
+                } else if (weight < 20) { // 10-15, 15-20 가격 동일
+                    add('국소마취 (1 site)', 12000); add('국소마취 (2 site)', 17000);
+                    add('국소마취 (3 site)', 20000); add('국소마취 (4 site)', 22000);
+                } else {
+                    add('국소마취 (1 site)', 13000); add('국소마취 (2 site)', 18000);
+                    add('국소마취 (3 site)', 21000); add('국소마취 (4 site)', 23000);
+                }
             }
-            if(itemId === 'fluoride') {
-                 if(isSmall) add('불소도포(<10kg)', weight < 5 ? 35000:40000);
-                 if(isLarge) add('불소도포(10kg≤)', weight < 15 ? 45000:48000);
+            if (itemId === 'pain_opioid_iv' && weight > 0) {
+                if (weight < 5) add('마약성 진통 혈관주사', 20000);
+                else if (weight < 10) add('마약성 진통 혈관주사', 25000);
+                else if (weight < 15) add('마약성 진통 혈관주사', 26000);
+                else if (weight < 20) add('마약성 진통 혈관주사', 27000);
+                else add('마약성 진통 혈관주사', 28000);
+            }
+            if (itemId === 'pain_24hr_injection' && weight > 0) {
+                if (weight < 5) add('24시간 지속 진통 주사', 15000);
+                else if (weight < 10) add('24시간 지속 진통 주사', 20000);
+                else if (weight < 15) add('24시간 지속 진통 주사', 25000);
+                else if (weight < 20) add('24시간 지속 진통 주사', 28000);
+                else add('24시간 지속 진통 주사', 30000);
+            }
+            if (itemId === 'pain_cri' && weight > 0) {
+                 if (weight < 5) add('무통 주사(시린지펌프)', 40000);
+                 else if (weight < 10) add('무통 주사(시린지펌프)', 45000);
+                 else if (weight < 15) add('무통 주사(시린지펌프)', 50000);
+                 else if (weight < 20) add('무통 주사(시린지펌프)', 55000);
+                 else add('무통 주사(시린지펌프)', 60000);
+            }
+            if(itemId === 'pain_patch'){
+                add('마약성 진통패치 (5ug)', 40000);
+                add('마약성 진통패치 (10ug)', 50000);
+                add('마약성 진통패치 (20ug)', 60000);
+            }
+            if (itemId === 'recovery_injection' && weight > 0) {
+                let price_normal, price_1w;
+                if (weight < 5) { price_normal = 11000; price_1w = 15000; }
+                else if (weight < 10) { price_normal = 13000; price_1w = 18000; }
+                else if (weight < 15) { price_normal = 15000; price_1w = 20000; }
+                else if (weight < 20) { price_normal = 17000; price_1w = 25000; }
+                else { price_normal = 20000; price_1w = 30000; }
+                add('항생/소염 주사 (일반)', price_normal);
+                add('1주 지속 항생/소염 주사', price_1w);
+            }
+            if (itemId === 'laser_therapy' && weight > 0) {
+                let price_local, price_full;
+                 if (weight < 5) { price_local = 20000; price_full = 25000; }
+                 else if (weight < 10) { price_local = 23000; price_full = 28000; }
+                 else if (weight < 15) { price_local = 26000; price_full = 31000; }
+                 else if (weight < 20) { price_local = 29000; price_full = 34000; }
+                 else { price_local = 32000; price_full = 37000; }
+                 add('레이저 치료 (국소)', price_local);
+                 add('레이저 치료 (전체)', price_full);
+            }
+            if(itemId === 'fluoride' && weight > 0) {
+                 if (weight < 5) add('불소 도포', 35000);
+                 else if (weight < 10) add('불소 도포', 40000);
+                 else if (weight < 15) add('불소 도포', 45000);
+                 else if (weight < 20) add('불소 도포', 48000);
+                 else add('불소 도포', 50000);
             }
             if (itemId === 'medication' && weight > 0) {
-                 const p1 = isSmall ? (weight < 5 ? 1900 : 2700) : null;
-                 const p2 = isSmall ? (weight < 5 ? 3300 : 3800) : (isLarge ? (weight < 15 ? 4400 : 4900) : 5500);
+                 let pricePerDay;
+                 if (weight < 5) pricePerDay = 3300;
+                 else if (weight < 10) pricePerDay = 3800;
+                 else if (weight < 15) pricePerDay = 4400;
+                 else if (weight < 20) pricePerDay = 4900;
+                 else pricePerDay = 5500;
                  for(let d=1; d<=7; d++) {
-                     if(p1) add(`내복약 (1일1회, ${d}일분)`, p1 * d);
-                     if(p2) add(`내복약 (1일2회, ${d}일분)`, p2 * d);
+                     add(`내복약 (1일2회, ${d}일분)`, pricePerDay * d);
                  }
             }
-             if (itemId === 'home-care-meds') {
-                 add('액상진통제(NSAID, 0.1ml/kg)', 16000);
-                 add('구강항생연고(페리덱스)', 15000);
-                 add('구강점막코팅(뮤코딘)', 33000);
-                 add('치주질환연고(파로돈겔)', 25000);
-             }
-             if (itemId === 'neck-collar') {
+            if (itemId === 'home_care_products') {
+                 add('액상 진통제(NSID)', 8000);
+                 add('구강소독 헥사딘 스프레이', 10000);
+                 add('구강항생 스테로이드연고', 15000);
+                 add('구강점막코팅스프레이', 33000);
+                 add('파라돈 겔', 25000);
+                 add('구강 유산균', 50000);
+            }
+            if (itemId === 'neck_collar') {
                  const collars = [ {s:8,p:8000}, {s:10,p:10000}, {s:13,p:12000}, {s:15,p:15000}, {s:17,p:17000}, {s:20,p:20000}, {s:25,p:25000}, {s:35,p:30000} ];
                  collars.forEach(c => add(`넥카라 ${c.s}cm`, c.p));
-             }
-             if (itemId === 'misc-op') {
-                add('조직검사', 170000);
-                add('항생제 감수성 검사', 143000);
-             }
+            }
             
             if (Array.from(control.options).some(opt => opt.value === savedValue)) {
                 control.value = savedValue;
@@ -1118,7 +1174,7 @@ function initCalculator(data) {
         }
     });
 
-    page.querySelector('#visit-date-calc').valueAsDate = new Date();
+    page.querySelector('#visit-date-calc').valueAsDate = new date();
     for (const [tableId, teeth] of Object.entries(toothData)) { 
         const tableBody = page.querySelector(`.${tableId} tbody`); 
         teeth.forEach(tooth => {
@@ -1131,7 +1187,8 @@ function initCalculator(data) {
     updateAdditionalOptions();
     
     page.querySelectorAll('.procedure-select').forEach(select => handleSelectionChange(select));
-    page.querySelectorAll('.additional-table select').forEach(select => handleSelectionChange(select));
+    page.querySelectorAll('.additional-treatments-container select').forEach(select => handleSelectionChange(select));
+
 
     updateDynamicTitle();
     updateTotalCost();
