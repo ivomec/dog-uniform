@@ -1,5 +1,6 @@
 /*
-  [v6.7 최종 업데이트 내역]
+  [v6.8 최종 업데이트 내역]
+  - UI 개선: 추가처치 탭 및 계산기의 추가처치 항목에 이모티콘을 추가하여 가독성 및 통일성 향상
   - UI 개선: 건강검진 및 스케일링 패키지 항목을 이모티콘과 함께 세련된 스타일로 변경
   - UI 개선: '모니터링' 선택 시 가독성을 높이기 위해 배경색 및 글자색 강조 로직 수정
   - 기능 수정: 전체 비용 내역 표시에 건강검진 및 스케일링 비용을 별도 항목으로 분리
@@ -152,31 +153,31 @@ document.addEventListener('DOMContentLoaded', () => {
           "headerSubtitle": "💖 10kg 미만 아이들을 위한 맞춤 케어 비용 안내 💖",
           "items": [
               { "borderColor": "#f06292", "title": "🪄 통증 관리", "prices": [
-                  { "label": "마취시간 연장 (30분당)", "value": "45,000 ~ 50,000원" }, 
-                  { "label": "국소마취 (1~4 site)", "value": "10,000 ~ 20,000원" }, 
-                  { "label": "마약성 진통 혈관주사", "value": "20,000 ~ 25,000원" },
-                  { "label": "24시간 지속 진통 주사", "value": "20,000 ~ 25,000원" },
-                  { "label": "무통 주사 (시린지펌프)", "value": "40,000 ~ 45,000원"}, 
-                  { "label": "마약성 진통패치 (노스판)", "value": "40,000원 ~" }
+                  { "label": "⏰ 마취시간 연장 (30분당)", "value": "45,000 ~ 50,000원" }, 
+                  { "label": "📍 국소마취 (1~4 site)", "value": "10,000 ~ 20,000원" }, 
+                  { "label": "❤️‍🩹 마약성 진통 혈관주사", "value": "20,000 ~ 25,000원" },
+                  { "label": "🕒 24시간 지속 진통 주사", "value": "20,000 ~ 25,000원" },
+                  { "label": "😊 무통 주사 (시린지펌프)", "value": "40,000 ~ 45,000원"}, 
+                  { "label": "🩹 마약성 진통패치 (노스판)", "value": "40,000원 ~" }
                 ]},
               { "borderColor": "#4dd0e1", "title": "🚀 회복/재생 촉진", "prices": [
-                  { "label": "항생/소염 주사 (일반)", "value": "11,000원" }, 
-                  { "label": "1주 지속 항생/소염 주사", "value": "15,000 ~ 18,000원" }, 
-                  { "label": "레이저 치료 (국소/전체)", "value": "20,000 ~ 28,000원" }, 
-                  { "label": "불소 도포", "value": "35,000 ~ 40,000원" }
+                  { "label": "💉 항생/소염 주사 (일반)", "value": "11,000원" }, 
+                  { "label": "💉 1주 지속 항생/소염 주사", "value": "15,000 ~ 18,000원" }, 
+                  { "label": "⚡️ 레이저 치료 (국소/전체)", "value": "20,000 ~ 28,000원" }, 
+                  { "label": "✨ 불소 도포", "value": "35,000 ~ 40,000원" }
                 ]},
               { "borderColor": "#9575cd", "title": "🏡 홈케어 처방", "prices": [
-                  { "label": "내복약 (1일/1회/1일분)", "value": "1,900 ~ 2,700원" },
-                  { "label": "내복약 (1일/2회/1일분)", "value": "3,300 ~ 3,800원" }, 
-                  { "label": "액상 진통제 (NSAID)", "value": "별도 문의" }, 
-                  { "label": "구강항생연고 (페리덱스)", "value": "15,000원" },
-                  { "label": "구강점막코팅 (뮤코딘)", "value": "33,000원" },
-                  { "label": "치주질환연고 (파로돈겔)", "value": "25,000원" },
-                  { "label": "넥카라", "value": "8,000원 ~" }
+                  { "label": "💊 내복약 (1일/1회/1일분)", "value": "1,900 ~ 2,700원" },
+                  { "label": "💊 내복약 (1일/2회/1일분)", "value": "3,300 ~ 3,800원" }, 
+                  { "label": "💧 액상 진통제 (NSAID)", "value": "별도 문의" }, 
+                  { "label": "🧴 구강항생연고 (페리덱스)", "value": "15,000원" },
+                  { "label": "🛡️ 구강점막코팅 (뮤코딘)", "value": "33,000원" },
+                  { "label": "🌿 치주질환연고 (파로돈겔)", "value": "25,000원" },
+                  { "label": "👑 넥카라", "value": "8,000원 ~" }
                 ]},
               { "borderColor": "#fff176", "title": "💉 기타 처치", "prices": [
-                  { "label": "도입마취 변경(알팍산)", "value": "33,000 ~ 44,000원" },
-                  { "label": "수액첨가제(헤파멜즈)", "value": "15,000원" }
+                  { "label": "💉 도입마취 변경(알팍산)", "value": "33,000 ~ 44,000원" },
+                  { "label": "💧 수액첨가제(헤파멜즈)", "value": "15,000원" }
                 ]}
           ],
           "explanation": { "title": "💡 추가 처치는 왜 필요할까요? 🤔", "content": ["우리 댕댕이들은 <strong>\"나 아파요😿\" 라고 말을 못하고 꾹~ 참는 습성</strong>이 있어요. 그래서 미리 통증을 관리해주는 건 아이의 고통을 덜어주는 <strong>가장 큰 사랑이자 배려</strong>랍니다.💖", "또, 항생제나 레이저, 소독 용품들은 수술 후 생길 수 있는 <strong>나쁜 균들을 막아주고 🦠 회복 속도를 높여서⚡️</strong> 아이가 빨리 우다다! 할 수 있게 도와줘요!", "저희 병원은 아이의 상태를 꼼꼼히 살펴, <strong>정말 꼭! 필요한 처치만 골라서 보호자님과 상의</strong>드릴 것을 약속해요.🤙"] }
@@ -186,30 +187,30 @@ document.addEventListener('DOMContentLoaded', () => {
           "headerSubtitle": "💖 10kg 이상 아이들을 위한 맞춤 케어 비용 안내 💖",
            "items": [
               { "borderColor": "#f06292", "title": "🪄 통증 관리", "prices": [
-                  { "label": "마취시간 연장 (30분당)", "value": "55,000원 ~" }, 
-                  { "label": "국소마취 (1~4 site)", "value": "12,000 ~ 23,000원" }, 
-                  { "label": "마약성 진통 혈관주사", "value": "26,000 ~ 28,000원" },
-                  { "label": "24시간 지속 진통 주사", "value": "25,000 ~ 30,000원" },
-                  { "label": "무통 주사 (시린지펌프)", "value": "50,000 ~ 60,000원"}, 
-                  { "label": "마약성 진통패치 (노스판)", "value": "50,000원 ~" }
+                  { "label": "⏰ 마취시간 연장 (30분당)", "value": "55,000원 ~" }, 
+                  { "label": "📍 국소마취 (1~4 site)", "value": "12,000 ~ 23,000원" }, 
+                  { "label": "❤️‍🩹 마약성 진통 혈관주사", "value": "26,000 ~ 28,000원" },
+                  { "label": "🕒 24시간 지속 진통 주사", "value": "25,000 ~ 30,000원" },
+                  { "label": "😊 무통 주사 (시린지펌프)", "value": "50,000 ~ 60,000원"}, 
+                  { "label": "🩹 마약성 진통패치 (노스판)", "value": "50,000원 ~" }
                 ]},
               { "borderColor": "#4dd0e1", "title": "🚀 회복/재생 촉진", "prices": [
-                  { "label": "항생/소염 주사 (일반)", "value": "13,000원 ~" }, 
-                  { "label": "1주 지속 항생/소염 주사", "value": "20,000 ~ 30,000원" }, 
-                  { "label": "레이저 치료 (국소/전체)", "value": "26,000 ~ 37,000원" }, 
-                  { "label": "불소 도포", "value": "44,000 ~ 50,000원" }
+                  { "label": "💉 항생/소염 주사 (일반)", "value": "13,000원 ~" }, 
+                  { "label": "💉 1주 지속 항생/소염 주사", "value": "20,000 ~ 30,000원" }, 
+                  { "label": "⚡️ 레이저 치료 (국소/전체)", "value": "26,000 ~ 37,000원" }, 
+                  { "label": "✨ 불소 도포", "value": "44,000 ~ 50,000원" }
                 ]},
               { "borderColor": "#9575cd", "title": "🏡 홈케어 처방", "prices": [
-                  { "label": "내복약 (1일/2회/1일분)", "value": "4,400 ~ 5,500원" }, 
-                  { "label": "액상 진통제 (NSAID)", "value": "별도 문의" }, 
-                  { "label": "구강항생연고 (페리덱스)", "value": "15,000원" },
-                  { "label": "구강점막코팅 (뮤코딘)", "value": "33,000원" },
-                  { "label": "치주질환연고 (파로돈겔)", "value": "25,000원" },
-                  { "label": "넥카라", "value": "12,000원 ~" }
+                  { "label": "💊 내복약 (1일/2회/1일분)", "value": "4,400 ~ 5,500원" }, 
+                  { "label": "💧 액상 진통제 (NSAID)", "value": "별도 문의" }, 
+                  { "label": "🧴 구강항생연고 (페리덱스)", "value": "15,000원" },
+                  { "label": "🛡️ 구강점막코팅 (뮤코딘)", "value": "33,000원" },
+                  { "label": "🌿 치주질환연고 (파로돈겔)", "value": "25,000원" },
+                  { "label": "👑 넥카라", "value": "12,000원 ~" }
                 ]},
               { "borderColor": "#fff176", "title": "💉 기타 처치", "prices": [
-                  { "label": "도입마취 변경(알팍산)", "value": "55,000원 ~" },
-                  { "label": "수액첨가제(헤파멜즈)", "value": "15,000원" }
+                  { "label": "💉 도입마취 변경(알팍산)", "value": "55,000원 ~" },
+                  { "label": "💧 수액첨가제(헤파멜즈)", "value": "15,000원" }
                 ]}
           ],
           "explanation": { "title": "💡 추가 처치는 왜 필요할까요? 🤔", "content": ["우리 댕댕이들은 <strong>\"나 아파요😿\" 라고 말을 못하고 꾹~ 참는 습성</strong>이 있어요. 그래서 미리 통증을 관리해주는 건 아이의 고통을 덜어주는 <strong>가장 큰 사랑이자 배려</strong>랍니다.💖", "또, 항생제나 레이저, 소독 용품들은 수술 후 생길 수 있는 <strong>나쁜 균들을 막아주고 🦠 회복 속도를 높여서⚡️</strong> 아이가 빨리 우다다! 할 수 있게 도와줘요!", "저희 병원은 아이의 상태를 꼼꼼히 살펴, <strong>정말 꼭! 필요한 처치만 골라서 보호자님과 상의</strong>드릴 것을 약속해요.🤙"] }
@@ -515,7 +516,7 @@ function setupPageNavigation() {
 function initCalculator(data) {
     const page = document.querySelector('#Calculator-Page');
     if (!page) return;
-    const CURRENT_VERSION = "6.7-dog";
+    const CURRENT_VERSION = "6.8-dog";
     let isChartDirty = false;
 
     const toothData = {
@@ -787,19 +788,19 @@ function initCalculator(data) {
         tbody2.innerHTML = '';
 
         const treatmentsByCategory = [
-            { category: '🩺 기본/수액', items: [ { id: 'health-check', name: '건강검진' }, { id: 'scaling-package', name: '스케일링' }, { id: 'iv_additives', name: '수액첨가제' } ]},
-            { category: '💉 마취', items: [ { id: 'anesthesia_pre', name: '도입마취 변경' }, { id: 'anesthesia_ext', name: '마취 시간 연장' }, { id: 'local_anesthesia', name: '국소마취' } ]},
-            { category: '🩹 통증 관리', items: [ { id: 'pain_opioid_iv', name: '마약성 진통 혈관주사' }, { id: 'pain_24hr_injection', name: '24시간 지속 진통 주사' }, { id: 'pain_cri', name: '무통 주사' }, { id: 'pain_patch', name: '마약성 진통패치' } ]},
-            { category: '🚀 회복 촉진', items: [ { id: 'recovery_injection', name: '항생/소염 주사' }, { id: 'laser_therapy', name: '레이저 치료' }, { id: 'fluoride', name: '불소 도포' }]},
+            { category: '🩺 기본/수액', items: [ { id: 'health-check', name: '🩺 건강검진' }, { id: 'scaling-package', name: '🦷 스케일링' }, { id: 'iv_additives', name: '💧 수액첨가제' } ]},
+            { category: '💉 마취', items: [ { id: 'anesthesia_pre', name: '💉 도입마취 변경' }, { id: 'anesthesia_ext', name: '⏰ 마취 시간 연장' }, { id: 'local_anesthesia', name: '📍 국소마취' } ]},
+            { category: '🩹 통증 관리', items: [ { id: 'pain_opioid_iv', name: '❤️‍🩹 마약성 진통 혈관주사' }, { id: 'pain_24hr_injection', name: '🕒 24시간 지속 진통 주사' }, { id: 'pain_cri', name: '😊 무통 주사' }, { id: 'pain_patch', name: '🩹 마약성 진통패치' } ]},
+            { category: '🚀 회복 촉진', items: [ { id: 'recovery_injection', name: '💉 항생/소염 주사' }, { id: 'laser_therapy', name: '⚡️ 레이저 치료' }, { id: 'fluoride', name: '✨ 불소 도포' }]},
             { category: '🏡 홈케어', items: [ 
-                { id: 'medication', name: '내복약 (1일2회)' }, 
-                { id: 'liquid_analgesic_nsaid', name: '액상 진통제(NSID)'},
-                { id: 'hexidine_spray', name: '헥시딘 스프레이'},
-                { id: 'steroid_ointment', name: '구강항생 스테로이드연고'},
-                { id: 'coating_spray', name: '구강점막코팅스프레이'},
-                { id: 'paradont_gel', name: '파라돈 겔'},
-                { id: 'probiotics', name: '구강 유산균'},
-                { id: 'neck_collar', name: '넥카라' } 
+                { id: 'medication', name: '💊 내복약 (1일2회)' }, 
+                { id: 'liquid_analgesic_nsaid', name: '💧 액상 진통제(NSID)'},
+                { id: 'hexidine_spray', name: '칙- 헥시딘 스프레이'},
+                { id: 'steroid_ointment', name: '🧴 구강항생 스테로이드연고'},
+                { id: 'coating_spray', name: '🛡️ 구강점막코팅스프레이'},
+                { id: 'paradont_gel', name: '🌿 파라돈 겔'},
+                { id: 'probiotics', name: '🦠 구강 유산균'},
+                { id: 'neck_collar', name: '👑 넥카라' } 
             ]}
         ];
         
