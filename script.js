@@ -1,13 +1,13 @@
 /*
-  [v6.4 최종 업데이트 내역]
-  - 버그 수정: 계산기 초기 로딩 시 발생하던 TypeError를 해결하여 계산기 탭이 정상적으로 표시되도록 수정
-  - 버그 수정: 단일 행 치아(송곳니 등)에 시술 추가 시 테이블 레이아웃이 밀리는 현상 완벽히 해결
-  - 데이터 수정: 파로돈겔 가격을 25,000원으로 정확하게 수정
-  - 기능 복원: '유치' 관련 시술 선택 시 유치 번호(501, 601 등)가 자동으로 표시되는 기능 복원
-  - 기능 유지: '모니터링' 선택 시 특정 색상으로 강조되는 기능 유지 확인
-  - UI 개선: 추가 처치 내역을 명확한 카테고리로 재구성하고 이모티콘 추가
-  - 데이터 검증: 20kg 이하/이상 건강검진 비용 데이터 최종 확인
-  - 데이터 수정: 엑셀 파일 기반으로 모든 추가 처치 비용 최신화
+  [v6.6 최종 업데이트 내역]
+  - UI 개선: 추가처치 내역에 개별 비용 표시 기능 추가
+  - 기능 추가: 홈케어 용품 개별 선택 기능 및 액상 진통제 자동 계산 로직 구현
+  - UI 개선: 예상비용 및 보호자용 내역 탭에 치아 공식 이미지 추가
+  - 데이터 수정: 수술비용 탭의 치아 이미지를 최신 버전으로 교체
+  - UI 변경: 유튜브 영상을 '영상 보러가기' 링크 버튼으로 변경
+  - 데이터 수정: 액상 진통제 가격을 1ml당 8,000원으로 수정
+  - UI 개선: '모니터링' 선택 시 눈에 띄는 색상으로 강조
+  - UI 개선: 추가처치 항목 테이블 높이를 조정하여 클릭 용이성 개선
 */
 document.addEventListener('DOMContentLoaded', () => {
     const hospitalData = {
@@ -520,7 +520,7 @@ function setupPageNavigation() {
 function initCalculator(data) {
     const page = document.querySelector('#Calculator-Page');
     if (!page) return;
-    const CURRENT_VERSION = "6.4-dog";
+    const CURRENT_VERSION = "6.6-dog";
     let isChartDirty = false;
 
     const toothData = {
@@ -692,7 +692,7 @@ function initCalculator(data) {
                     case '신경/보존 치료': idCell.style.backgroundColor = '#b2dfdb'; break;
                     case '기타': idCell.style.backgroundColor = '#fff9c4'; break;
                     case '모니터링': 
-                        idCell.style.backgroundColor = '#f50057';
+                        idCell.style.backgroundColor = '#ff4757'; // 눈에 띄는 붉은 계열
                         idCell.style.color = 'white';
                         idCell.style.fontWeight = 'bold';
                         break;
@@ -716,13 +716,13 @@ function initCalculator(data) {
         let selectedOption = null;
 
         if (target.matches('select')) {
-            cost = parseInt(target.value, 10) || 0;
+            const value = target.value;
+            // '선택안함|0' 같은 형태와 '22000' 같은 숫자 형태 모두 처리
+            cost = parseInt(value.split('|').pop(), 10) || 0;
             selectedOption = target.options[target.selectedIndex];
         }
 
         if (row.classList.contains('additional-row')) {
-            const [text, priceStr] = target.value.split('|');
-            cost = parseInt(priceStr, 10) || 0;
             row.classList.toggle('selected-row', target.value !== '선택안함|0');
             const costCell = row.querySelector('.cost');
             if (costCell) {
@@ -789,7 +789,16 @@ function initCalculator(data) {
             { category: '💉 마취', items: [ { id: 'anesthesia_pre', name: '도입마취 변경' }, { id: 'anesthesia_ext', name: '마취 시간 연장' }, { id: 'local_anesthesia', name: '국소마취' } ]},
             { category: '🩹 통증 관리', items: [ { id: 'pain_opioid_iv', name: '마약성 진통 혈관주사' }, { id: 'pain_24hr_injection', name: '24시간 지속 진통 주사' }, { id: 'pain_cri', name: '무통 주사' }, { id: 'pain_patch', name: '마약성 진통패치' } ]},
             { category: '🚀 회복 촉진', items: [ { id: 'recovery_injection', name: '항생/소염 주사' }, { id: 'laser_therapy', name: '레이저 치료' }, { id: 'fluoride', name: '불소 도포' }]},
-            { category: '🏡 홈케어', items: [ { id: 'medication', name: '내복약' }, { id: 'home_care_products', name: '연고/용품' }, { id: 'neck_collar', name: '넥카라' } ]}
+            { category: '🏡 홈케어', items: [ 
+                { id: 'medication', name: '내복약 (1일2회)' }, 
+                { id: 'liquid_analgesic_nsaid', name: '액상 진통제(NSID)'},
+                { id: 'hexidine_spray', name: '헥시딘 스프레이'},
+                { id: 'steroid_ointment', name: '구강항생 스테로이드연고'},
+                { id: 'coating_spray', name: '구강점막코팅스프레이'},
+                { id: 'paradont_gel', name: '파라돈 겔'},
+                { id: 'probiotics', name: '구강 유산균'},
+                { id: 'neck_collar', name: '넥카라' } 
+            ]}
         ];
         
         const col1Categories = [treatmentsByCategory[0], treatmentsByCategory[1], treatmentsByCategory[2]];
@@ -947,17 +956,24 @@ function initCalculator(data) {
                  else if (weight < 20) pricePerDay = 4900;
                  else pricePerDay = 5500;
                  for(let d=1; d<=7; d++) {
-                     add(`내복약 (1일2회, ${d}일분)`, pricePerDay * d);
+                     add(`${d}일분`, pricePerDay * d);
                  }
             }
-            if (itemId === 'home_care_products') {
-                 add('액상 진통제(NSID)', 8000);
-                 add('구강소독 헥사딘 스프레이', 10000);
-                 add('구강항생 스테로이드연고', 15000);
-                 add('구강점막코팅스프레이', 33000);
-                 add('파라돈 겔', 25000);
-                 add('구강 유산균', 50000);
+            if(itemId === 'liquid_analgesic_nsaid' && weight > 0) {
+                 const pricePerMl = 8000;
+                 for(let d=1; d<=7; d++) {
+                    let totalMl = (weight * 0.2) + (d > 1 ? (d - 1) * weight * 0.1 : 0);
+                    let roundedMl = Math.ceil(totalMl * 10) / 10;
+                    let cost = roundedMl * pricePerMl;
+                    let roundedCost = Math.ceil(cost / 100) * 100;
+                    add(`${d}일 (${roundedMl}ml)`, roundedCost);
+                 }
             }
+            if (itemId === 'hexidine_spray') add('헥시딘 스프레이', 10000);
+            if (itemId === 'steroid_ointment') add('스테로이드 연고', 15000);
+            if (itemId === 'coating_spray') add('구강점막코팅 스프레이', 33000);
+            if (itemId === 'paradont_gel') add('파라돈 겔', 25000);
+            if (itemId === 'probiotics') add('구강 유산균', 50000);
             if (itemId === 'neck_collar') {
                  const collars = [ {s:8,p:8000}, {s:10,p:10000}, {s:13,p:12000}, {s:15,p:15000}, {s:17,p:17000}, {s:20,p:20000}, {s:25,p:25000}, {s:35,p:30000} ];
                  collars.forEach(c => add(`넥카라 ${c.s}cm`, c.p));
@@ -1193,9 +1209,7 @@ function initCalculator(data) {
     populateAdditionalTreatments();
     updateAdditionalOptions();
     
-    page.querySelectorAll('.procedure-select').forEach(select => handleSelectionChange(select));
-    page.querySelectorAll('.additional-treatments-container select').forEach(select => handleSelectionChange(select));
-
+    page.querySelectorAll('.procedure-select, .additional-treatments-container select').forEach(select => handleSelectionChange(select));
 
     updateDynamicTitle();
     updateTotalCost();
@@ -1265,6 +1279,18 @@ function copyCalculatorDataTo(targetId) {
     const visitDate = new Date(visitDateRaw);
     const formattedDate = visitDateRaw && !isNaN(visitDate.getTime()) ? `${visitDate.getFullYear()}년 ${visitDate.getMonth() + 1}월 ${visitDate.getDate()}일` : "오늘";
     
+    targetCaptureArea.innerHTML = ''; // Clear previous content
+    
+    const toothFormulaImage = document.createElement('img');
+    toothFormulaImage.src = "https://raw.githubusercontent.com/ivomec/image/main/%EC%B9%98%EC%8B%9D1.jpg?raw=true";
+    toothFormulaImage.alt = "강아지 치아 모식도";
+    toothFormulaImage.style.width = "100%";
+    toothFormulaImage.style.maxWidth = "800px";
+    toothFormulaImage.style.margin = "0 auto 25px";
+    toothFormulaImage.style.display = "block";
+    toothFormulaImage.style.borderRadius = "15px";
+    targetCaptureArea.appendChild(toothFormulaImage);
+    
     if (targetId === 'content-estimate') {
         clonedArea.querySelector('.dynamic-chart-title').textContent = `📄 ${patientName}의 치과수술 예상 비용`;
         const totalCostContainer = clonedArea.querySelector('.total-cost-container');
@@ -1280,13 +1306,11 @@ function copyCalculatorDataTo(targetId) {
         }
         clonedArea.querySelector('.patient-info-inputs')?.remove();
         
-        targetCaptureArea.innerHTML = '';
         targetCaptureArea.appendChild(clonedArea);
         targetCaptureArea.insertAdjacentHTML('beforeend', `<div class="disclaimer-box"><h3>⚠️ 비용 안내 ⚠️</h3><p>본 예상 비용은 현재 상태를 바탕으로 한 추정치입니다.<br>치과 수술의 특성상, 마취 후 구강 전체에 대한 정밀 검사(치과 X-ray 및 탐침)를 통해 숨겨진 병변이 추가로 발견될 수 있습니다.<br>이 경우, 보호자와의 상담을 통해 치료 계획 및 비용이 조정될 수 있음을 미리 안내해 드립니다. 아이의 건강을 위한 최선의 결정을 함께하겠습니다.</p></div>`);
     } else if (targetId === 'content-guardian-report') {
         clonedArea.querySelector('.dynamic-chart-title').textContent = `❤️ ${formattedDate} 우리 ${patientName}의 치과 치료 기록 ❤️`;
         clonedArea.querySelector('.patient-info-inputs')?.remove();
-        targetCaptureArea.innerHTML = '';
         targetCaptureArea.appendChild(clonedArea);
         targetCaptureArea.insertAdjacentHTML('beforeend', generateGuardianComments(clonedArea));
     }
@@ -1313,7 +1337,7 @@ function generateGuardianComments(clonedArea) {
         if (category === '치주 치료') careAdviceCategories.add('PERIODONTAL');
     });
     
-    if (clonedArea.querySelector('[data-item-id="medication"]')?.value !== '선택안함|0' || clonedArea.querySelector('[data-item-id="home-care-meds"]')?.value !== '선택안함|0') {
+    if (clonedArea.querySelector('[data-item-id="medication"]')?.value !== '선택안함|0' || clonedArea.querySelector('[data-item-id="liquid_analgesic_nsaid"]')?.value !== '선택안함|0') {
         careAdviceCategories.add('MEDICATION');
     }
     let careAdviceHTML = `<li>${careAdviceMap['GENERAL']}</li>`;
