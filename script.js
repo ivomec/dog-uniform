@@ -657,6 +657,7 @@ function initCalculator(data) {
         const newRow = document.createElement('tr');
         newRow.className = 'procedure-sub-row';
         newRow.dataset.permanentId = mainRowId;
+        newRow.style.backgroundColor = '#FFFFE0';
         newRow.innerHTML = `<td class="tooth-id-cell"></td><td><input type="text" class="notes" placeholder="특이사항 입력"></td><td><select class="procedure-select"></select></td><td class="cost" data-cost="0">₩0</td><td><button class="remove-btn">-</button></td>`;
         
         const subSelect = newRow.querySelector('.procedure-select');
@@ -788,7 +789,7 @@ function initCalculator(data) {
         tbody2.innerHTML = '';
 
         const treatmentsByCategory = [
-            { category: '🩺 기본/수액', items: [ { id: 'health-check', name: '🩺 건강검진' }, { id: 'scaling-package', name: '🦷 스케일링' }, { id: 'iv_additives', name: '💧 수액첨가제' } ]},
+            { category: '🩺 기본/수액', items: [ { id: 'health-check', name: '🩺 건강검진' }, { id: 'scaling-package', name: '🦷 스케일링/마취' }, { id: 'iv_additives', name: '💧 수액첨가제' } ]},
             { category: '💉 마취', items: [ { id: 'anesthesia_pre', name: '💉 도입마취 변경' }, { id: 'anesthesia_ext', name: '⏰ 마취 시간 연장' }, { id: 'local_anesthesia', name: '📍 국소마취' } ]},
             { category: '🩹 통증 관리', items: [ { id: 'pain_opioid_iv', name: '❤️‍🩹 마약성 진통 혈관주사' }, { id: 'pain_24hr_injection', name: '🕒 24시간 지속 진통 주사' }, { id: 'pain_cri', name: '😊 무통 주사' }, { id: 'pain_patch', name: '🩹 마약성 진통패치' } ]},
             { category: '🚀 회복 촉진', items: [ { id: 'recovery_injection', name: '💉 항생/소염 주사' }, { id: 'laser_therapy', name: '⚡️ 레이저 치료' }, { id: 'fluoride', name: '✨ 불소 도포' }]},
@@ -853,14 +854,26 @@ function initCalculator(data) {
                 }
             }
             if (itemId === 'scaling-package' && weight > 0) {
-                let price;
-                if (weight < 5) price = 239000;
-                else if (weight < 10) price = 299000;
-                else if (weight < 15) price = 388000;
-                else if (weight < 20) price = 438000;
-                else price = 488000;
-                add(`스케일링 패키지 (본원검사O)`, price);
-                add(`스케일링 패키지 (타병원검사/미검사)`, price + 100000);
+                let scalingPrice;
+                if (weight < 5) scalingPrice = 239000;
+                else if (weight < 10) scalingPrice = 299000;
+                else if (weight < 15) scalingPrice = 388000;
+                else if (weight < 20) scalingPrice = 438000;
+                else scalingPrice = 488000;
+                add(`스케일링 패키지 (본원검사O)`, scalingPrice);
+                add(`스케일링 패키지 (타병원검사/미검사)`, scalingPrice + 100000);
+
+                let anesthesiaOnlyPrice;
+                if (weight < 5) anesthesiaOnlyPrice = 189000;
+                else if (weight < 10) anesthesiaOnlyPrice = 239000;
+                else if (weight < 15) anesthesiaOnlyPrice = 319000;
+                else if (weight < 20) anesthesiaOnlyPrice = 339000;
+                else anesthesiaOnlyPrice = 389000;
+
+                if (anesthesiaOnlyPrice > 0) {
+                    add('치과마취 ONLY', anesthesiaOnlyPrice);
+                    add('치과마취 ONLY(타병원검사)', anesthesiaOnlyPrice + 100000);
+                }
             }
             if(itemId === 'iv_additives'){
                 add('수액첨가제(간기능 회복제)', 11000);
@@ -1040,7 +1053,7 @@ function initCalculator(data) {
             if (!scalingRow) {
                 scalingRow = document.createElement('tr');
                 scalingRow.id = 'scaling-cost-row';
-                scalingRow.innerHTML = `<td>🦷 스케일링 비용</td><td class="scaling-cost-display"></td>`;
+                scalingRow.innerHTML = `<td>🦷 스케일링/마취 비용</td><td class="scaling-cost-display"></td>`;
                 summaryTableBody.insertBefore(scalingRow, additionalCostRow);
             }
             scalingRow.style.display = '';
