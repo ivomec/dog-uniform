@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "content": [ 
                 "전신 마취는 마치 <strong>'비행기 여행 ✈️'</strong>과 같아요. 여행 전에 <strong>날씨를 꼭! 체크 🌤️</strong>하는 것처럼, 마취 전 건강검진은 우리 아이의 몸 상태를 미리 확인해서 가장 안전한 여행(마취) 계획을 세우는 과정이랍니다.",
                 "겉으로는 보이지 않는 장기의 이상이나 숨겨진 질병을 미리 발견해서, 마취 중 발생할 수 있는 위험을 최소화하고 <strong>우리 댕댕이에게 가장 안전한 방법을 찾기 위한 💖사랑의 과정💖</strong>이에요.",
-                "<br><strong>❤️ 심장병이 의심될 경우 (심잡음, 심장 크기 확장 등)</strong><br>안전한 마취를 위해 심장 기능 정밀 평가을 위한 <strong>NT-ProBNP 검사(비용: 55,000원)</strong>가 추가적으로 필요할 수 있습니다. 아이의 안전을 위한 것이니 너른 양해 부탁드립니다.",
+                "<br><strong>❤️ 심장병이 의심될 경우 (심잡음, 심장 크기 확장 등)</strong><br>안전한 마취를 위해 심장 기능 정밀 평가를 위한 <strong>NT-ProBNP 검사(비용: 55,000원)</strong>가 추가적으로 필요할 수 있습니다. 아이의 안전을 위한 것이니 너른 양해 부탁드립니다.",
                 "<strong>🦋 7세 이상 노령견의 경우</strong><br>마취 중 발생할 수 있는 갑상선 기능 저하로 인한 서맥(느린맥박) 등의 위험을 방지하기 위해 <strong>갑상선 호르몬(T4) 검사(비용: 50,000원)</strong>가 의무적으로 추가됩니다."
             ]
         }
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             "content": [ 
                 "전신 마취는 마치 <strong>'비행기 여행 ✈️'</strong>과 같아요. 여행 전에 <strong>날씨를 꼭! 체크 🌤️</strong>하는 것처럼, 마취 전 건강검진은 우리 아이의 몸 상태를 미리 확인해서 가장 안전한 여행(마취) 계획을 세우는 과정이랍니다.",
                 "겉으로는 보이지 않는 장기의 이상이나 숨겨진 질병을 미리 발견해서, 마취 중 발생할 수 있는 위험을 최소화하고 <strong>우리 댕댕이에게 가장 안전한 방법을 찾기 위한 💖사랑의 과정💖</strong>이에요.",
-                "<br><strong>❤️ 심장병이 의심될 경우 (심잡음, 심장 크기 확장 등)</strong><br>안전한 마취를 위해 심장 기능 정밀 평가을 위한 <strong>NT-ProBNP 검사(비용: 55,000원)</strong>가 추가적으로 필요할 수 있습니다. 아이의 안전을 위한 것이니 너른 양해 부탁드립니다.",
+                "<br><strong>❤️ 심장병이 의심될 경우 (심잡음, 심장 크기 확장 등)</strong><br>안전한 마취를 위해 심장 기능 정밀 평가를 위한 <strong>NT-ProBNP 검사(비용: 55,000원)</strong>가 추가적으로 필요할 수 있습니다. 아이의 안전을 위한 것이니 너른 양해 부탁드립니다.",
                 "<strong>🦋 7세 이상 노령견의 경우</strong><br>마취 중 발생할 수 있는 갑상선 기능 저하로 인한 서맥(느린맥박) 등의 위험을 방지하기 위해 <strong>갑상선 호르몬(T4) 검사(비용: 50,000원)</strong>가 의무적으로 추가됩니다."
             ]
         }
@@ -1050,7 +1050,7 @@ function initCalculator(data) {
             if (!scalingRow) {
                 scalingRow = document.createElement('tr');
                 scalingRow.id = 'scaling-cost-row';
-                scalingRow.innerHTML = `<td>🦷 스케일링 비용</td><td class="scaling-cost-display"></td>`;
+                scalingRow.innerHTML = `<td>🦷 스케일링/마취 비용</td><td class="scaling-cost-display"></td>`;
                 summaryTableBody.insertBefore(scalingRow, additionalCostRow);
             }
             scalingRow.style.display = '';
