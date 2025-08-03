@@ -1231,7 +1231,10 @@ function initCalculator(data) {
             }
             
             const typeCell = findGoverningTypeCell(insertAfterRow);
-            if (typeCell) typeCell.rowSpan += 1;
+            if (typeCell) {
+                typeCell.rowSpan += 1;
+                typeCell.style.backgroundColor = '#f0f0f0';
+            }
             
             const newSubRow = createSubRow(mainRow.dataset.permanentId);
             insertAfterRow.insertAdjacentElement('afterend', newSubRow);
