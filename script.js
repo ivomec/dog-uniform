@@ -1265,16 +1265,10 @@ function initCalculator(data) {
     updateDynamicTitle();
     updateTotalCost();
 
-    const btnContainers = page.querySelectorAll('.export-container');
-    btnContainers.forEach(btnContainer => {
-        btnContainer.querySelector('.save-data-btn')?.addEventListener('click', saveData);
-        const loadBtn = btnContainer.querySelector('.load-data-btn');
-        const loadInput = btnContainer.querySelector('.load-data-input');
-        if (loadBtn && loadInput) {
-            loadBtn.addEventListener('click', () => loadInput.click());
-            loadInput.addEventListener('change', loadData);
-        }
-    });
+    const btnContainer = page.closest('.content-panel').querySelector('.export-container');
+    btnContainer.querySelector('.save-data-btn')?.addEventListener('click', saveData);
+    btnContainer.querySelector('.load-data-btn')?.addEventListener('click', () => btnContainer.querySelector('.load-data-input').click());
+    btnContainer.querySelector('.load-data-input')?.addEventListener('change', loadData);
     
     window.addEventListener('beforeunload', (e) => {
         if (isChartDirty) { 
@@ -1332,13 +1326,18 @@ function copyCalculatorDataTo(targetId) {
         if(allHidden) row.style.display = 'none';
     });
     
+    // [수정된 부분] 입력되지 않은 치아 행을 숨기는 로직을 제거하여 전체 치아 테이블이 보이도록 합니다.
     clonedArea.querySelectorAll('.main-container tr').forEach(row => {
         const select = row.querySelector('.procedure-select');
         const notes = row.querySelector('.notes');
+        // 치료 내역이 없는 행은 숨기지 않고 그대로 둡니다.
+        // 따라서, 이전에 있던 if 문을 제거합니다.
+        // 사용자가 입력한 내용이 없는 행은 흐리게 보이도록 스타일을 추가할 수 있습니다. (선택 사항)
         if (select && select.value === '0' && notes && notes.value.trim() === '') {
-            row.style.display = 'none';
+            row.style.opacity = '0.6'; // 예: 비활성화된 것처럼 보이게 처리
         }
     });
+
 
     const patientName = document.querySelector('#patient-name-calc').value || '댕댕이';
     const visitDateRaw = document.querySelector('#visit-date-calc').value;
@@ -1418,22 +1417,14 @@ function generateGuardianComments(clonedArea) {
 function addExportListeners(pageSelector, type) {
     const page = document.querySelector(pageSelector);
     if (!page) return;
-    const btnContainers = page.querySelectorAll('.export-container');
-    if (btnContainers.length === 0) return;
+    const btnContainer = page.querySelector('.export-container');
+    if (!btnContainer) return;
 
     const exportHandler = (exportFunc) => {
         const captureArea = page.querySelector('.capture-area');
-        // 계산기 탭의 환자 정보 입력 필드는 내보낼 때 숨깁니다.
         const patientInfoInputs = document.querySelector('#Calculator-Page .patient-info-inputs');
         const originalDisplay = patientInfoInputs ? patientInfoInputs.style.display : '';
         if (patientInfoInputs) patientInfoInputs.style.display = 'none';
-        
-        // 내보내기 전에 버튼 컨테이너들을 숨깁니다.
-        const originalBtnDisplays = [];
-        btnContainers.forEach(container => {
-            originalBtnDisplays.push(container.style.display);
-            container.style.display = 'none';
-        });
 
         const unselectedAddonRows = captureArea.querySelectorAll('.additional-treatments-container tr.additional-row');
         const hiddenAddonRows = [];
@@ -1469,8 +1460,9 @@ function addExportListeners(pageSelector, type) {
              const select = row.querySelector('.procedure-select');
              const notes = row.querySelector('.notes');
              if(select && select.value === '0' && notes && notes.value.trim() === '') {
-                 row.style.display = 'none';
-                 hiddenDentalRows.push(row);
+                 // [수정된 부분] 내보내기 시에도 숨기지 않도록 display 속성 변경을 주석 처리합니다.
+                 // row.style.display = 'none'; 
+                 // hiddenDentalRows.push(row);
              }
         });
 
@@ -1480,51 +1472,45 @@ function addExportListeners(pageSelector, type) {
             const fileName = `${patientName}_${date}_${type}`;
             exportFunc(canvas, fileName);
         }).finally(() => {
-            // 숨겼던 요소들을 다시 원래대로 복원합니다.
             if (patientInfoInputs) patientInfoInputs.style.display = originalDisplay;
-            btnContainers.forEach((container, index) => {
-                container.style.display = originalBtnDisplays[index];
-            });
             hiddenAddonRows.forEach(row => row.style.display = '');
             hiddenCategoryHeaders.forEach(row => row.style.display = '');
-            hiddenDentalRows.forEach(row => row.style.display = '');
+            hiddenDentalRows.forEach(row => row.style.display = ''); // 복원 로직은 유지
         });
     };
 
-    btnContainers.forEach(btnContainer => {
-        btnContainer.querySelector('.export-png-btn')?.addEventListener('click', () => {
-            exportHandler((canvas, fileName) => {
-                const link = document.createElement('a');
-                link.download = fileName + '.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
+    btnContainer.querySelector('.export-png-btn')?.addEventListener('click', () => {
+        exportHandler((canvas, fileName) => {
+            const link = document.createElement('a');
+            link.download = fileName + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
         });
+    });
 
-        btnContainer.querySelector('.export-pdf-btn')?.addEventListener('click', () => {
-            exportHandler((canvas, fileName) => {
-                const { jsPDF } = window.jspdf;
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const canvasWidth = canvas.width;
-                const canvasHeight = canvas.height;
-                const canvasAspectRatio = canvasWidth / canvasHeight;
-                const renderHeight = pdfWidth / canvasAspectRatio;
-                
-                let position = 0;
+    btnContainer.querySelector('.export-pdf-btn')?.addEventListener('click', () => {
+        exportHandler((canvas, fileName) => {
+            const { jsPDF } = window.jspdf;
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+            const canvasAspectRatio = canvasWidth / canvasHeight;
+            const renderHeight = pdfWidth / canvasAspectRatio;
+            
+            let position = 0;
+            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, renderHeight);
+            let heightLeft = renderHeight - pdf.internal.pageSize.getHeight();
+
+            while (heightLeft > 0) {
+                position -= pdf.internal.pageSize.getHeight();
+                pdf.addPage();
                 pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, renderHeight);
-                let heightLeft = renderHeight - pdf.internal.pageSize.getHeight();
-
-                while (heightLeft > 0) {
-                    position -= pdf.internal.pageSize.getHeight();
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, renderHeight);
-                    heightLeft -= pdf.internal.pageSize.getHeight();
-                }
-                
-                pdf.save(fileName + '.pdf');
-            });
+                heightLeft -= pdf.internal.pageSize.getHeight();
+            }
+            
+            pdf.save(fileName + '.pdf');
         });
     });
 }
