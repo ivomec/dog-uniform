@@ -222,7 +222,7 @@
         .calculator-common h2, .calculator-common h3 { background-color: #0056b3; color: white; padding: 10px; text-align: center; font-size: 1.1em; border-radius: 5px; margin-top: 0; }
         .calculator-common h3 { background-color: #5a6268; font-size: 1em; }
         .calculator-common table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; } 
-        .calculator-common td { border: 1px solid #ccc; padding: 2px; text-align: center; font-size: 0.85em; vertical-align: middle; transition: background-color 0.2s; }
+        .calculator-common td { border: 1px solid #ccc; padding: 2px; text-align: center; font-size: 0.85em; vertical-align: middle; transition: background-color 0.3s; }
         .calculator-common th { border: 1px solid #ccc; padding: 6px; text-align: center; font-size: 0.85em; background-color: #FFC107; color: #333; vertical-align: middle; }
         .calculator-common .notes, .calculator-common .procedure-select { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 100%; box-sizing: border-box; height: 30px; padding: 0 8px; border: 1px solid #ccc; border-radius: 3px; font-size: 1em; background-color: #fff; line-height: 28px; text-align: center; text-align-last: center; }
         .calculator-common .additional-treatments-column select { height: 34px; padding: 4px 8px; -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px; font-size: 1em; background-color: #fff; text-align: center; text-align-last: center; }
@@ -237,6 +237,20 @@
         .calculator-common .additional-treatments-column { flex: 1; min-width: calc(50% - 10px); }
         .calculator-common .additional-treatments-column table { table-layout: auto; }
         .calculator-common .additional-treatments-column tr.selected-row > td { background-color: #e7f5ff; }
+
+        /* === START: 요청사항 반영 수정 === */
+        /* +버튼으로 추가된 행에 연한 녹색 배경 적용 */
+        .calculator-common tr.procedure-sub-row > td {
+            background-color: #f1f8e9; /* 연한 녹색 */
+        }
+        /* 시술 카테고리별 행 배경색상 */
+        .calculator-common tr.highlight-extraction > td { background-color: #ffebee !important; }
+        .calculator-common tr.highlight-perio > td { background-color: #e3f2fd !important; }
+        .calculator-common tr.highlight-nerve > td { background-color: #e8f5e9 !important; }
+        .calculator-common tr.highlight-etc > td { background-color: #fafafa !important; }
+        /* '모니터링' 항목을 위한 특별 강조 스타일 (눈에 띄는 노란색) */
+        .calculator-common tr.highlight-monitoring > td { background-color: #fff176 !important; font-weight: bold; }
+        /* === END: 요청사항 반영 수정 === */
 
         .calculator-common .total-cost-container { text-align:center; margin-top:40px; padding:25px; background-color:#fff; border:3px solid #0056b3; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
         .calculator-common .total-cost-container h2 { font-size: 1.6em; color: #0056b3; margin: 0 0 15px 0; background-color: transparent; }
@@ -327,8 +341,7 @@
                 <main>
                     <a href="https://www.youtube.com/watch?v=_mk6qOF7OEs" target="_blank" class="action-button youtube-btn">🎥 영상 보러가기</a>
                     <div class="procedure-timeline">
-                        <!-- JS로 내용 채워짐 -->
-                    </div>
+                        </div>
                 </main>
             </div>
         </div>
