@@ -519,6 +519,17 @@ function initCalculator(data) {
     const CURRENT_VERSION = "6.8-dog";
     let isChartDirty = false;
 
+    // --- 타이머 변수 추가 ---
+    let timerInterval = null;
+    let elapsedTime = 0; // 초 단위로 저장
+    let startTime = 0;
+    let isRunning = false;
+
+    const timerDisplay = page.querySelector('#anesthesia-timer-display');
+    const startStopBtn = page.querySelector('#timer-start-stop');
+    const resetBtn = page.querySelector('#timer-reset');
+    // --- /타이머 변수 추가 ---
+
     const toothData = {
         'table-upper-right': [ { id: '101', type: '앞이빨', group: 3 }, { id: '102', type: '' }, { id: '103', type: '' }, { id: '104', type: '송곳니', group: 1 }, { id: '105', type: '작은<br>어금니', group: 4 }, { id: '106', type: '' }, { id: '107', type: '' }, { id: '108', type: '열육치' }, { id: '109', type: '큰<br>어금니', group: 2 }, { id: '110', type: '' } ],
         'table-lower-right': [ { id: '401', type: '앞이빨', group: 3 }, { id: '402', type: '' }, { id: '403', type: '' }, { id: '404', type: '송곳니', group: 1 }, { id: '405', type: '작은<br>어금니', group: 4 }, { id: '406', type: '' }, { id: '407', type: '' }, { id: '408', type: '' }, { id: '409', type: '대구치', group: 3 }, { id: '410', type: '' }, { id: '411', type: '' } ],
@@ -581,6 +592,48 @@ function initCalculator(data) {
         ]},
         '모니터링': { cat: '모니터링', items: [ {l:'모니터링', v:0} ]}
     };
+    
+    // --- 타이머 함수 추가 ---
+    function formatTime(totalSeconds) {
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        return [hours, minutes, seconds].map(v => v.toString().padStart(2, '0')).join(':');
+    }
+
+    function updateTimer() {
+        const now = Date.now();
+        const secondsPassed = Math.floor((now - startTime) / 1000);
+        timerDisplay.textContent = formatTime(elapsedTime + secondsPassed);
+    }
+
+    function startStopTimer() {
+        if (isRunning) {
+            // 정지
+            clearInterval(timerInterval);
+            const now = Date.now();
+            elapsedTime += Math.floor((now - startTime) / 1000);
+            isRunning = false;
+            startStopBtn.textContent = '시작';
+            isChartDirty = true;
+        } else {
+            // 시작
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+            isRunning = true;
+            startStopBtn.textContent = '정지';
+        }
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval);
+        elapsedTime = 0;
+        isRunning = false;
+        timerDisplay.textContent = formatTime(0);
+        startStopBtn.textContent = '시작';
+        isChartDirty = true;
+    }
+    // --- /타이머 함수 추가 ---
 
     function addOption(select, text, value, category = '', tag = '') {
         const opt = new Option(text, value);
@@ -1138,7 +1191,16 @@ function initCalculator(data) {
     }
     
     function saveData() {
-        const chartData = { appVersion: CURRENT_VERSION, patientName: page.querySelector('#patient-name-calc').value, visitDate: page.querySelector('#visit-date-calc').value, patientWeight: page.querySelector('#patient-weight-calc').value, dentalProcedures: {}, additionalTreatments: {} };
+        const currentElapsedTime = isRunning ? elapsedTime + Math.floor((Date.now() - startTime) / 1000) : elapsedTime;
+        const chartData = { 
+            appVersion: CURRENT_VERSION, 
+            patientName: page.querySelector('#patient-name-calc').value, 
+            visitDate: page.querySelector('#visit-date-calc').value, 
+            patientWeight: page.querySelector('#patient-weight-calc').value,
+            anesthesiaTime: currentElapsedTime,
+            dentalProcedures: {}, 
+            additionalTreatments: {} 
+        };
         const procedureGroups = {};
         page.querySelectorAll('.main-container tr[data-permanent-id]').forEach(row => {
             const id = row.dataset.permanentId;
@@ -1175,6 +1237,13 @@ function initCalculator(data) {
                 page.querySelector('#visit-date-calc').value = chartData.visitDate || new Date().toISOString().split('T')[0];
                 page.querySelector('#patient-weight-calc').value = chartData.patientWeight || '';
                 
+                // 타이머 데이터 불러오기
+                if (timerInterval) clearInterval(timerInterval);
+                isRunning = false;
+                elapsedTime = chartData.anesthesiaTime || 0;
+                timerDisplay.textContent = formatTime(elapsedTime);
+                startStopBtn.textContent = '시작';
+
                 updateAllProcedureSelects();
                 updateAdditionalOptions();
 
@@ -1303,6 +1372,11 @@ function initCalculator(data) {
     updateDynamicTitle();
     updateTotalCost();
 
+    // --- 타이머 이벤트 리스너 추가 ---
+    startStopBtn.addEventListener('click', startStopTimer);
+    resetBtn.addEventListener('click', resetTimer);
+    // --- /타이머 이벤트 리스너 추가 ---
+
     const btnContainers = page.closest('.content-panel').querySelectorAll('.export-container');
     btnContainers.forEach(container => {
         container.querySelector('.save-data-btn')?.addEventListener('click', saveData);
@@ -1399,6 +1473,15 @@ function copyCalculatorDataTo(targetId) {
     const visitDate = new Date(visitDateRaw);
     const formattedDate = visitDateRaw && !isNaN(visitDate.getTime()) ? `${visitDate.getFullYear()}년 ${visitDate.getMonth() + 1}월 ${visitDate.getDate()}일` : "오늘";
     
+    // 타이머 정보 복제 및 비활성화
+    const timerDisplayClone = clonedArea.querySelector('#anesthesia-timer-display');
+    if (timerDisplayClone) {
+        timerDisplayClone.textContent = document.querySelector('#anesthesia-timer-display').textContent;
+    }
+    clonedArea.querySelector('#timer-start-stop')?.remove();
+    clonedArea.querySelector('#timer-reset')?.remove();
+
+
     targetCaptureArea.innerHTML = '';
     
     const toothFormulaImage = document.createElement('img');
