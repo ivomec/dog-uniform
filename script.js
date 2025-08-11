@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { "title": "🍼 유치 발치", "prices": [{ "label": "일반 유치", "value": 22000 }, { "label": "유치 송곳니(X-ray 없이)", "value": 22000 }, { "label": "유치 송곳니(X-ray 포함)", "value": 33000 }, { "label": "유치 송곳니(수술 발치)", "value": 66000 }] },
                 { "title": "⚡ 특수 발치 및 처치", "prices": [{ "label": "치아흡수 - 뿌리 1개", "value": 44000 }, { "label": "치아흡수 - 뿌리 2개", "value": 88000 }, { "label": "치아흡수 - 뿌리 3개", "value": 140000 }, { "label": "함치성낭 제거술", "value": 220000 }] },
                 { "title": "🦷 잔존치근 제거", "prices": [{ "label": "뿌리 1개", "value": 55000 }, { "label": "뿌리 2개", "value": 120000 }, { "label": "구개측(어금니)", "value": 160000 }, { "label": "상악 송곳니", "value": 250000 }, { "label": "하악 송곳니", "value": 300000 }] },
-                { "title": "🍑 잇몸 종양", "prices": [{ "label": "1cm 이하", "value": 110000 }, { "label": "1cm 이상", "value": 220000 }, {"label": "조직검사(1 site)", "value": 170000}]},
+                { "title": "🍑 잇몸 종양", "prices": [{ "label": "1cm 이하", "value": 110000 }, { "label": "1cm 이상", "value": 220000 }, {"label": "조직검사(1 site)", "value": 187000}]},
                 { "title": "🔬 기타 수술", "prices": [{ "label": "항생제 감수성 검사(1 site)", "value": 143000 }, { "label": "함치성 치낭 제거술", "value": 220000 }] }
             ]
         },
